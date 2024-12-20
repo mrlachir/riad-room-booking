@@ -2,6 +2,52 @@
 include_once __DIR__ . '/../../config/database.php';
 
 class Room {
+    // Add this method to your Room.php model file
+public static function getFiltered($filters) {
+    global $conn;
+
+    $query = "SELECT * FROM rooms WHERE 1=1";
+    $bindings = [];
+
+    // Add search filter
+    if (!empty($filters['search'])) {
+        $query .= " AND (LOWER(name) LIKE LOWER(:search) OR LOWER(description) LIKE LOWER(:search))";
+        $bindings[':search'] = '%' . $filters['search'] . '%';
+    }
+
+    // Add price range filter
+    if (!empty($filters['min_price'])) {
+        $query .= " AND price >= :min_price";
+        $bindings[':min_price'] = $filters['min_price'];
+    }
+    if (!empty($filters['max_price'])) {
+        $query .= " AND price <= :max_price";
+        $bindings[':max_price'] = $filters['max_price'];
+    }
+
+    // Add capacity filter
+    if (!empty($filters['capacity'])) {
+        $query .= " AND capacity >= :capacity";
+        $bindings[':capacity'] = $filters['capacity'];
+    }
+
+    $statement = oci_parse($conn, $query);
+
+    // Bind all parameters
+    foreach ($bindings as $key => $value) {
+        oci_bind_by_name($statement, $key, $value);
+    }
+
+    oci_execute($statement);
+
+    $rooms = [];
+    while ($row = oci_fetch_assoc($statement)) {
+        $rooms[] = $row;
+    }
+    oci_free_statement($statement);
+
+    return $rooms;
+}
     public static function getAll() {
         global $conn;
 

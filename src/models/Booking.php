@@ -3,7 +3,48 @@ include_once __DIR__ . '/../../config/database.php';
 
 class Booking {
     // Create a new booking
+    public static function isRoomAvailable($roomId, $checkIn, $checkOut) {
+        global $conn;
+
+        $query = "SELECT COUNT(*) as booking_count 
+                  FROM bookings 
+                  WHERE room_id = :roomId 
+                  AND NOT (
+                      check_out < TO_DATE(:checkIn, 'YYYY-MM-DD') 
+                      OR check_in > TO_DATE(:checkOut, 'YYYY-MM-DD')
+                  )";
+                  
+        $statement = oci_parse($conn, $query);
+        
+        // Bind parameters
+        oci_bind_by_name($statement, ":roomId", $roomId);
+        oci_bind_by_name($statement, ":checkIn", $checkIn);
+        oci_bind_by_name($statement, ":checkOut", $checkOut);
+        
+        // Execute query
+        $result = oci_execute($statement);
+        
+        if (!$result) {
+            $e = oci_error($statement);
+            oci_free_statement($statement);
+            throw new Exception("Error checking room availability: " . $e['message']);
+        }
+        
+        // Fetch result
+        $row = oci_fetch_assoc($statement);
+        oci_free_statement($statement);
+        
+        // Return true if no overlapping bookings found
+        return ($row['BOOKING_COUNT'] == 0);
+    }
+
+    // Create a new booking
     public static function createBooking($userId, $roomId, $checkIn, $checkOut, $totalPrice) {
+        // First check if the room is available
+        if (!self::isRoomAvailable($roomId, $checkIn, $checkOut)) {
+            throw new Exception("Room is not available for the selected dates.");
+        }
+
         global $conn;
 
         $query = "INSERT INTO bookings (user_id, room_id, check_in, check_out, total_price) 

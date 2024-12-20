@@ -17,15 +17,16 @@ class ActivityController {
         try {
             // Fetch activity details by ID
             $activity = Activity::find($id);
-
+    
             // Fetch recommended activities (excluding the current activity)
             $recommendedActivities = Activity::getRecommended($id);
-
+    
             // Pass data to the view
             include __DIR__ . '/../views/activity.php';
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage();
         }
     }
+    
 }
 ?>
