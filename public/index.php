@@ -71,18 +71,30 @@ try {
             break;
 
         case 'profile': // User profile page
-            $controller = new UserController();
-            $controller->profile();
+            if (isset($_SESSION['user'])) {
+                $controller = new UserController();
+                $controller->profile();
+            } else {
+                throw new Exception("You must be logged in to view your profile.");
+            }
             break;
 
         case 'updateProfile': // Update user profile
-            $controller = new UserController();
-            $controller->updateProfile();
+            if (isset($_SESSION['user'])) {
+                $controller = new UserController();
+                $controller->updateProfile();
+            } else {
+                throw new Exception("You must be logged in to update your profile.");
+            }
             break;
 
         case 'changePassword': // Change user password
-            $controller = new UserController();
-            $controller->changePassword();
+            if (isset($_SESSION['user'])) {
+                $controller = new UserController();
+                $controller->changePassword();
+            } else {
+                throw new Exception("You must be logged in to change your password.");
+            }
             break;
 
         // Fallback for unknown pages
@@ -90,7 +102,25 @@ try {
             throw new Exception("Page not found.");
     }
 } catch (Exception $e) {
-    // Display error message
-    echo "<h1>Error: " . $e->getMessage() . "</h1>";
+    // Display error message with a user-friendly layout
+    echo "<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Error</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        h1 { color: red; }
+        p { color: #555; }
+        a { color: blue; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>Error: " . htmlspecialchars($e->getMessage()) . "</h1>
+    <p>Please go back to the <a href='/index.php?page=rooms'>home page</a>.</p>
+</body>
+</html>";
 }
 ?>

@@ -14,7 +14,7 @@ class User {
         oci_bind_by_name($statement, ":email", $email);
         oci_bind_by_name($statement, ":password", $hashedPassword);
 
-        if (!oci_execute($statement)) {
+        if (!oci_execute($statement, OCI_COMMIT_ON_SUCCESS)) {
             $e = oci_error($statement);
             oci_free_statement($statement);
             throw new Exception("Database error: " . htmlentities($e['message']));
@@ -40,6 +40,7 @@ class User {
 
         return null; // Invalid credentials
     }
+
     public static function find($id) {
         global $conn;
 
@@ -54,7 +55,7 @@ class User {
         return $user ?: null;
     }
 
-    public static function updateProfile($id, $name, $email, $phone) {
+    public static function updateProfile($id, $name, $email, $phone = null) {
         global $conn;
 
         $query = "UPDATE users SET name = :name, email = :email, phone = :phone WHERE user_id = :id";
@@ -64,7 +65,7 @@ class User {
         oci_bind_by_name($statement, ":phone", $phone);
         oci_bind_by_name($statement, ":id", $id);
 
-        if (!oci_execute($statement)) {
+        if (!oci_execute($statement, OCI_COMMIT_ON_SUCCESS)) {
             $e = oci_error($statement);
             oci_free_statement($statement);
             throw new Exception("Database error: " . htmlentities($e['message']));
@@ -96,7 +97,7 @@ class User {
         oci_bind_by_name($updateStatement, ":password", $hashedPassword);
         oci_bind_by_name($updateStatement, ":id", $id);
 
-        if (!oci_execute($updateStatement)) {
+        if (!oci_execute($updateStatement, OCI_COMMIT_ON_SUCCESS)) {
             $e = oci_error($updateStatement);
             oci_free_statement($updateStatement);
             throw new Exception("Database error: " . htmlentities($e['message']));
@@ -123,5 +124,18 @@ class User {
         oci_free_statement($statement);
         return $reviews;
     }
+
+    public static function emailExists($email) {
+        global $conn;
+
+        $query = "SELECT COUNT(*) AS count FROM users WHERE email = :email";
+        $statement = oci_parse($conn, $query);
+        oci_bind_by_name($statement, ":email", $email);
+        oci_execute($statement);
+
+        $result = oci_fetch_assoc($statement);
+        oci_free_statement($statement);
+
+        return $result['COUNT'] > 0;
+    }
 }
-?>

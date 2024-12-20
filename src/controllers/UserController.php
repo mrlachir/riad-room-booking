@@ -6,61 +6,116 @@ class UserController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 // Get form data
-                $name = $_POST['name'] ?? null;
-                $email = $_POST['email'] ?? null;
-                $password = $_POST['password'] ?? null;
+                $name = trim($_POST['name'] ?? '');
+                $email = trim($_POST['email'] ?? '');
+                $password = $_POST['password'] ?? '';
+                $confirmPassword = $_POST['confirm_password'] ?? '';
 
                 // Validate inputs
-                if (empty($name) || empty($email) || empty($password)) {
+                if (empty($name) || empty($email) || empty($password) || empty($confirmPassword)) {
                     throw new Exception("All fields are required.");
                 }
 
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    throw new Exception("Invalid email format.");
+                }
+
+                if ($password !== $confirmPassword) {
+                    throw new Exception("Passwords do not match.");
+                }
+
+                if (strlen($password) < 8) {
+                    throw new Exception("Password must be at least 8 characters long.");
+                }
+
                 // Register user
-                User::register($name, $email, $password);
+                if (User::emailExists($email)) {
+                    throw new Exception("Email is already registered.");
+                }
+
+                User::register($name, $email, password_hash($password, PASSWORD_BCRYPT));
 
                 // Redirect to login
                 header("Location: index.php?page=login");
                 exit;
             } catch (Exception $e) {
-                echo "<h1>Error: " . $e->getMessage() . "</h1>";
+                $errorMessage = $e->getMessage();
+                include __DIR__ . '/../views/register.php';
             }
         } else {
             include __DIR__ . '/../views/register.php';
         }
     }
 
-    public function login() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            try {
-                // Get form data
-                $email = $_POST['email'] ?? null;
-                $password = $_POST['password'] ?? null;
+    // public function login() {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         try {
+    //             $email = trim($_POST['email'] ?? '');
+    //             $password = $_POST['password'] ?? '';
 
-                // Validate inputs
-                if (empty($email) || empty($password)) {
-                    throw new Exception("Email and password are required.");
-                }
+    //             // Validate inputs
+    //             if (empty($email) || empty($password)) {
+    //                 throw new Exception("Email and password are required.");
+    //             }
 
-                // Attempt login
-                $user = User::login($email, $password);
-                if ($user) {
-                    // Start session and store user data
-                    session_start();
-                    $_SESSION['user'] = $user;
+    //             $user = User::login($email, $password);
+    //             if (!$user) {
+    //                 throw new Exception("Invalid email or password.");
+    //             }
 
-                    // Redirect to dashboard or home
-                    header("Location: index.php?page=rooms");
-                    exit;
-                } else {
-                    throw new Exception("Invalid email or password.");
-                }
-            } catch (Exception $e) {
-                echo "<h1>Error: " . $e->getMessage() . "</h1>";
+    //             // Start session and store user data
+    //             session_start();
+    //             $_SESSION['user'] = $user;
+
+    //             // Redirect to dashboard
+    //             header("Location: index.php?page=rooms");
+    //             exit;
+    //         } catch (Exception $e) {
+    //             $errorMessage = $e->getMessage();
+    //             include __DIR__ . '/../views/login.php';
+    //         }
+    //     } else {
+    //         include __DIR__ . '/../views/login.php';
+    //     }
+    // }
+    public function login()
+{
+    // Default error variable
+    $error = null;
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        try {
+            $email = trim($_POST['email'] ?? '');
+            $password = $_POST['password'] ?? '';
+
+            // Validate inputs
+            if (empty($email) || empty($password)) {
+                throw new Exception("Email and password are required.");
             }
-        } else {
-            include __DIR__ . '/../views/login.php';
+
+            // Attempt login
+            $user = User::login($email, $password);
+            if (!$user) {
+                throw new Exception("Invalid email or password.");
+            }
+
+            // Start session and store user data
+            session_start();
+            $_SESSION['user'] = $user;
+
+            // Redirect to dashboard
+            header("Location: index.php?page=rooms");
+            exit;
+        } catch (Exception $e) {
+            // Set error message for the view
+            $error = $e->getMessage();
         }
     }
+
+    // Include the login view
+    include __DIR__ . '/../views/login.php';
+}
+
 
     public function logout() {
         session_start();
@@ -70,6 +125,7 @@ class UserController {
         header("Location: index.php?page=login");
         exit;
     }
+
     public function profile() {
         session_start();
         if (!isset($_SESSION['user'])) {
@@ -77,68 +133,90 @@ class UserController {
             exit;
         }
 
-        $userId = $_SESSION['user']['USER_ID'];
-
         try {
-            // Fetch user details
+            $userId = $_SESSION['user']['USER_ID'];
             $user = User::find($userId);
-
-            // Fetch booking history
-            // $bookings = Booking::getByUser($userId);
-
-            // Fetch reviews
             $reviews = User::getReviews($userId);
 
-            // Pass data to the profile view
             include __DIR__ . '/../views/profile.php';
         } catch (Exception $e) {
-            echo "<h1>Error: " . $e->getMessage() . "</h1>";
+            $errorMessage = $e->getMessage();
+            include __DIR__ . '/../views/error.php';
         }
     }
 
     public function updateProfile() {
         session_start();
+        if (!isset($_SESSION['user'])) {
+            header("Location: index.php?page=login");
+            exit;
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $userId = $_SESSION['user']['USER_ID'];
-                $name = $_POST['name'];
-                $email = $_POST['email'];
-                $phone = $_POST['phone'];
+                $name = trim($_POST['name'] ?? '');
+                $email = trim($_POST['email'] ?? '');
+                $phone = trim($_POST['phone'] ?? '');
 
-                // Update user profile
+                if (empty($name) || empty($email)) {
+                    throw new Exception("Name and email are required.");
+                }
+
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    throw new Exception("Invalid email format.");
+                }
+
                 User::updateProfile($userId, $name, $email, $phone);
 
-                // Redirect to profile
+                // Update session data
+                $_SESSION['user'] = User::find($userId);
+
                 header("Location: index.php?page=profile");
                 exit;
             } catch (Exception $e) {
-                echo "<h1>Error: " . $e->getMessage() . "</h1>";
+                $errorMessage = $e->getMessage();
+                include __DIR__ . '/../views/profile.php';
             }
         }
     }
 
     public function changePassword() {
         session_start();
+        if (!isset($_SESSION['user'])) {
+            header("Location: index.php?page=login");
+            exit;
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $userId = $_SESSION['user']['USER_ID'];
-                $currentPassword = $_POST['current_password'];
-                $newPassword = $_POST['new_password'];
-                $confirmPassword = $_POST['confirm_password'];
+                $currentPassword = $_POST['current_password'] ?? '';
+                $newPassword = $_POST['new_password'] ?? '';
+                $confirmPassword = $_POST['confirm_password'] ?? '';
+
+                if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
+                    throw new Exception("All fields are required.");
+                }
 
                 if ($newPassword !== $confirmPassword) {
                     throw new Exception("New password and confirmation do not match.");
                 }
 
-                // Change user password
-                User::changePassword($userId, $currentPassword, $newPassword);
+                if (strlen($newPassword) < 8) {
+                    throw new Exception("New password must be at least 8 characters long.");
+                }
 
-                // Redirect to profile
+                User::changePassword($userId, $currentPassword, password_hash($newPassword, PASSWORD_BCRYPT));
+
                 header("Location: index.php?page=profile");
                 exit;
             } catch (Exception $e) {
-                echo "<h1>Error: " . $e->getMessage() . "</h1>";
+                $errorMessage = $e->getMessage();
+                include __DIR__ . '/../views/change_password.php';
             }
+        } else {
+            include __DIR__ . '/../views/change_password.php';
         }
     }
 }
