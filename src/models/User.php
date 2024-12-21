@@ -1,8 +1,10 @@
 <?php
 include_once __DIR__ . '/../../config/database.php';
 
-class User {
-    public static function register($name, $email, $password) {
+class User
+{
+    public static function register($name, $email, $password)
+    {
         global $conn;
 
         // Hash the password
@@ -23,7 +25,8 @@ class User {
         oci_free_statement($statement);
     }
 
-    public static function login($email, $password) {
+    public static function login($email, $password)
+    {
         global $conn;
 
         $query = "SELECT * FROM users WHERE email = :email";
@@ -41,7 +44,8 @@ class User {
         return null; // Invalid credentials
     }
 
-    public static function find($id) {
+    public static function find($id)
+    {
         global $conn;
 
         $query = "SELECT * FROM users WHERE user_id = :id";
@@ -55,7 +59,8 @@ class User {
         return $user ?: null;
     }
 
-    public static function updateProfile($id, $name, $email, $phone = null) {
+    public static function updateProfile($id, $name, $email, $phone = null)
+    {
         global $conn;
 
         $query = "UPDATE users SET name = :name, email = :email, phone = :phone WHERE user_id = :id";
@@ -74,7 +79,8 @@ class User {
         oci_free_statement($statement);
     }
 
-    public static function changePassword($id, $currentPassword, $newPassword) {
+    public static function changePassword($id, $currentPassword, $newPassword)
+    {
         global $conn;
 
         // Fetch current password
@@ -106,7 +112,8 @@ class User {
         oci_free_statement($updateStatement);
     }
 
-    public static function getReviews($userId) {
+    public static function getReviews($userId)
+    {
         global $conn;
 
         $query = "SELECT r.*, rm.name AS room_name FROM reviews r
@@ -125,7 +132,8 @@ class User {
         return $reviews;
     }
 
-    public static function emailExists($email) {
+    public static function emailExists($email)
+    {
         global $conn;
 
         $query = "SELECT COUNT(*) AS count FROM users WHERE email = :email";

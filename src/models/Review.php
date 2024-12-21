@@ -1,9 +1,11 @@
 <?php
 include_once __DIR__ . '/../../config/database.php';
 
-class Review {
+class Review
+{
     // Fetch reviews by room ID
-    public static function getByRoomId($roomId) {
+    public static function getByRoomId($roomId)
+    {
         global $conn;
 
         $query = "SELECT r.*, u.name AS user_name FROM reviews r
@@ -23,7 +25,8 @@ class Review {
     }
 
     // Add a review
-    public static function addReview($userId, $roomId, $rating, $reviewText) {
+    public static function addReview($userId, $roomId, $rating, $reviewText)
+    {
         global $conn;
 
         $query = "INSERT INTO reviews (user_id, room_id, rating, review_text, review_date) 
@@ -43,4 +46,3 @@ class Review {
         oci_free_statement($statement);
     }
 }
-?>

@@ -1,8 +1,10 @@
 <?php
 include_once __DIR__ . '/../../config/database.php';
 
-class Activity {
-    public static function getAll() {
+class Activity
+{
+    public static function getAll()
+    {
         global $conn;
 
         $query = "SELECT * FROM activities";
@@ -22,7 +24,8 @@ class Activity {
 
         return $activities;
     }
-    public static function find($id) {
+    public static function find($id)
+    {
         global $conn;
 
         $query = "SELECT * FROM activities WHERE activity_id = :id";
@@ -40,7 +43,8 @@ class Activity {
         return $activity;
     }
 
-    public static function getRecommended($excludeId) {
+    public static function getRecommended($excludeId)
+    {
         global $conn;
 
         $query = "SELECT * FROM activities WHERE activity_id != :excludeId FETCH FIRST 3 ROWS ONLY";
@@ -57,4 +61,3 @@ class Activity {
         return $recommended;
     }
 }
-?>

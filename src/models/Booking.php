@@ -1,9 +1,11 @@
 <?php
 include_once __DIR__ . '/../../config/database.php';
 
-class Booking {
+class Booking
+{
     // Create a new booking
-    public static function isRoomAvailable($roomId, $checkIn, $checkOut) {
+    public static function isRoomAvailable($roomId, $checkIn, $checkOut)
+    {
         global $conn;
 
         $query = "SELECT COUNT(*) as booking_count 
@@ -13,74 +15,74 @@ class Booking {
                       check_out < TO_DATE(:checkIn, 'YYYY-MM-DD') 
                       OR check_in > TO_DATE(:checkOut, 'YYYY-MM-DD')
                   )";
-                  
+
         $statement = oci_parse($conn, $query);
-        
+
         // Bind parameters
         oci_bind_by_name($statement, ":roomId", $roomId);
         oci_bind_by_name($statement, ":checkIn", $checkIn);
         oci_bind_by_name($statement, ":checkOut", $checkOut);
-        
+
         // Execute query
         $result = oci_execute($statement);
-        
+
         if (!$result) {
             $e = oci_error($statement);
             oci_free_statement($statement);
             throw new Exception("Error checking room availability: " . $e['message']);
         }
-        
+
         // Fetch result
         $row = oci_fetch_assoc($statement);
         oci_free_statement($statement);
-        
+
         // Return true if no overlapping bookings found
         return ($row['BOOKING_COUNT'] == 0);
     }
-    
+
     // Create a new booking
     public static function createBooking($userId, $roomId, $checkIn, $checkOut, $totalPrice)
-{
-    global $conn;
+    {
+        global $conn;
 
-    // First check if the room is available
-    if (!self::isRoomAvailable($roomId, $checkIn, $checkOut)) {
-        throw new Exception("Room is not available for the selected dates.");
-    }
+        // First check if the room is available
+        if (!self::isRoomAvailable($roomId, $checkIn, $checkOut)) {
+            throw new Exception("Room is not available for the selected dates.");
+        }
 
-    $query = "INSERT INTO bookings (user_id, room_id, check_in, check_out, total_price) 
+        $query = "INSERT INTO bookings (user_id, room_id, check_in, check_out, total_price) 
               VALUES (:userId, :roomId, TO_DATE(:checkIn, 'YYYY-MM-DD'), TO_DATE(:checkOut, 'YYYY-MM-DD'), :totalPrice)
               RETURNING booking_id INTO :bookingId";
 
-    // Prepare the statement
-    $statement = oci_parse($conn, $query);
+        // Prepare the statement
+        $statement = oci_parse($conn, $query);
 
-    // Bind parameters
-    oci_bind_by_name($statement, ":userId", $userId);
-    oci_bind_by_name($statement, ":roomId", $roomId);
-    oci_bind_by_name($statement, ":checkIn", $checkIn);
-    oci_bind_by_name($statement, ":checkOut", $checkOut);
-    oci_bind_by_name($statement, ":totalPrice", $totalPrice);
+        // Bind parameters
+        oci_bind_by_name($statement, ":userId", $userId);
+        oci_bind_by_name($statement, ":roomId", $roomId);
+        oci_bind_by_name($statement, ":checkIn", $checkIn);
+        oci_bind_by_name($statement, ":checkOut", $checkOut);
+        oci_bind_by_name($statement, ":totalPrice", $totalPrice);
 
-    // Bind the RETURNING value
-    oci_bind_by_name($statement, ":bookingId", $bookingId, 32);
+        // Bind the RETURNING value
+        oci_bind_by_name($statement, ":bookingId", $bookingId, 32);
 
-    // Execute the statement
-    if (!oci_execute($statement, OCI_COMMIT_ON_SUCCESS)) {
-        $e = oci_error($statement);
+        // Execute the statement
+        if (!oci_execute($statement, OCI_COMMIT_ON_SUCCESS)) {
+            $e = oci_error($statement);
+            oci_free_statement($statement);
+            throw new Exception("Error creating booking: " . $e['message']);
+        }
+
         oci_free_statement($statement);
-        throw new Exception("Error creating booking: " . $e['message']);
+
+        // Return the generated booking ID
+        return $bookingId;
     }
 
-    oci_free_statement($statement);
-
-    // Return the generated booking ID
-    return $bookingId;
-}
-
-
     // Get all bookings for a specific user
-    public static function getByUser($userId) {
+    public static function getByUser($userId)
+    {
         global $conn;
 
         $query = "SELECT b.*, r.name AS room_name FROM bookings b
@@ -100,7 +102,8 @@ class Booking {
     }
 
     // Get a booking by ID
-    public static function find($bookingId) {
+    public static function find($bookingId)
+    {
         global $conn;
 
         $query = "SELECT b.*, r.name AS room_name, u.name AS user_name FROM bookings b
@@ -122,7 +125,8 @@ class Booking {
     }
 
     // Cancel a booking
-    public static function cancelBooking($bookingId) {
+    public static function cancelBooking($bookingId)
+    {
         global $conn;
 
         $query = "DELETE FROM bookings WHERE booking_id = :bookingId";
@@ -138,4 +142,3 @@ class Booking {
         oci_free_statement($statement);
     }
 }
-?>

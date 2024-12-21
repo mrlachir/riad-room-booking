@@ -14,7 +14,7 @@ $id = isset($_GET['id']) ? (int) $_GET['id'] : null; // Ensure ID is an integer
 // Main Routing Logic
 try {
     switch ($page) {
-        // Room Pages
+            // Room Pages
         case 'rooms': // Room listing page
             $controller = new RoomController();
             $controller->index();
@@ -43,7 +43,7 @@ try {
                 throw new Exception("Booking failed. Please try again.");
             }
             break;
-            
+
 
         case 'confirmation': // Booking confirmation page
             if (isset($_GET['bookingId'])) {
@@ -63,7 +63,7 @@ try {
             $controller->addReview();
             break;
 
-        // Activity Pages
+            // Activity Pages
         case 'activities': // Activity listing page
             $controller = new ActivityController();
             $controller->index();
@@ -78,7 +78,7 @@ try {
             }
             break;
 
-        // User Authentication and Profile Management
+            // User Authentication and Profile Management
         case 'register': // User registration page
             $controller = new UserController();
             $controller->register();
@@ -121,13 +121,14 @@ try {
             }
             break;
 
-        // Fallback for unknown pages
+            // Fallback for unknown pages
         default:
             throw new Exception("Page not found.");
     }
 } catch (Exception $e) {
     // Display error message with a user-friendly layout
-    echo "<!DOCTYPE html>
+    echo "
+<!DOCTYPE html>
 <html lang='en'>
 <head>
     <meta charset='UTF-8'>
@@ -145,5 +146,6 @@ try {
     <h1>Error: " . htmlspecialchars($e->getMessage()) . "</h1>
     <p>Please go back to the <a href='/index.php?page=rooms'>home page</a>.</p>
 </body>
-</html>";
-}
+</html>
+
+";}

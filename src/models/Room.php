@@ -1,54 +1,57 @@
 <?php
 include_once __DIR__ . '/../../config/database.php';
 
-class Room {
+class Room
+{
     // Add this method to your Room.php model file
-public static function getFiltered($filters) {
-    global $conn;
+    public static function getFiltered($filters)
+    {
+        global $conn;
 
-    $query = "SELECT * FROM rooms WHERE 1=1";
-    $bindings = [];
+        $query = "SELECT * FROM rooms WHERE 1=1";
+        $bindings = [];
 
-    // Add search filter
-    if (!empty($filters['search'])) {
-        $query .= " AND (LOWER(name) LIKE LOWER(:search) OR LOWER(description) LIKE LOWER(:search))";
-        $bindings[':search'] = '%' . $filters['search'] . '%';
+        // Add search filter
+        if (!empty($filters['search'])) {
+            $query .= " AND (LOWER(name) LIKE LOWER(:search) OR LOWER(description) LIKE LOWER(:search))";
+            $bindings[':search'] = '%' . $filters['search'] . '%';
+        }
+
+        // Add price range filter
+        if (!empty($filters['min_price'])) {
+            $query .= " AND price >= :min_price";
+            $bindings[':min_price'] = $filters['min_price'];
+        }
+        if (!empty($filters['max_price'])) {
+            $query .= " AND price <= :max_price";
+            $bindings[':max_price'] = $filters['max_price'];
+        }
+
+        // Add capacity filter
+        if (!empty($filters['capacity'])) {
+            $query .= " AND capacity >= :capacity";
+            $bindings[':capacity'] = $filters['capacity'];
+        }
+
+        $statement = oci_parse($conn, $query);
+
+        // Bind all parameters
+        foreach ($bindings as $key => $value) {
+            oci_bind_by_name($statement, $key, $value);
+        }
+
+        oci_execute($statement);
+
+        $rooms = [];
+        while ($row = oci_fetch_assoc($statement)) {
+            $rooms[] = $row;
+        }
+        oci_free_statement($statement);
+
+        return $rooms;
     }
-
-    // Add price range filter
-    if (!empty($filters['min_price'])) {
-        $query .= " AND price >= :min_price";
-        $bindings[':min_price'] = $filters['min_price'];
-    }
-    if (!empty($filters['max_price'])) {
-        $query .= " AND price <= :max_price";
-        $bindings[':max_price'] = $filters['max_price'];
-    }
-
-    // Add capacity filter
-    if (!empty($filters['capacity'])) {
-        $query .= " AND capacity >= :capacity";
-        $bindings[':capacity'] = $filters['capacity'];
-    }
-
-    $statement = oci_parse($conn, $query);
-
-    // Bind all parameters
-    foreach ($bindings as $key => $value) {
-        oci_bind_by_name($statement, $key, $value);
-    }
-
-    oci_execute($statement);
-
-    $rooms = [];
-    while ($row = oci_fetch_assoc($statement)) {
-        $rooms[] = $row;
-    }
-    oci_free_statement($statement);
-
-    return $rooms;
-}
-    public static function getAll() {
+    public static function getAll()
+    {
         global $conn;
 
         $query = "SELECT * FROM rooms";
@@ -68,34 +71,36 @@ public static function getFiltered($filters) {
 
         return $rooms;
     }
-    public static function find($id) {
-    global $conn;
+    public static function find($id)
+    {
+        global $conn;
 
-    $query = "SELECT * FROM rooms WHERE room_id = :id";
-    $statement = oci_parse($conn, $query);
-    oci_bind_by_name($statement, ":id", $id);
-    oci_execute($statement);
+        $query = "SELECT * FROM rooms WHERE room_id = :id";
+        $statement = oci_parse($conn, $query);
+        oci_bind_by_name($statement, ":id", $id);
+        oci_execute($statement);
 
-    $room = oci_fetch_assoc($statement);
-    oci_free_statement($statement);
+        $room = oci_fetch_assoc($statement);
+        oci_free_statement($statement);
 
-    if (!$room) {
-        throw new Exception("Room not found.");
+        if (!$room) {
+            throw new Exception("Room not found.");
+        }
+
+        // Mock additional fields if they don't exist in the database
+        $room['features'] = $room['features'] ?? ['Free WiFi', 'Air Conditioning', 'Room Service'];
+        $room['additional_images'] = $room['additional_images'] ?? [
+            'https://example.com/image1.jpg',
+            'https://example.com/image2.jpg',
+            'https://example.com/image3.jpg'
+        ];
+
+        return $room;
     }
 
-    // Mock additional fields if they don't exist in the database
-    $room['features'] = $room['features'] ?? ['Free WiFi', 'Air Conditioning', 'Room Service'];
-    $room['additional_images'] = $room['additional_images'] ?? [
-        'https://example.com/image1.jpg',
-        'https://example.com/image2.jpg',
-        'https://example.com/image3.jpg'
-    ];
 
-    return $room;
-}
-
-
-    public static function getRecommended($excludeId) {
+    public static function getRecommended($excludeId)
+    {
         global $conn;
 
         $query = "SELECT * FROM rooms WHERE room_id != :excludeId FETCH FIRST 3 ROWS ONLY";
@@ -112,7 +117,8 @@ public static function getFiltered($filters) {
         return $recommendedRooms;
     }
 
-    public static function getReviews($roomId) {
+    public static function getReviews($roomId)
+    {
         global $conn;
 
         $query = "SELECT r.*, u.name AS user_name FROM reviews r
@@ -131,7 +137,8 @@ public static function getFiltered($filters) {
         return $reviews;
     }
 
-    public static function addReview($roomId, $userId, $rating, $reviewText) {
+    public static function addReview($roomId, $userId, $rating, $reviewText)
+    {
         global $conn;
 
         $query = "INSERT INTO reviews (room_id, user_id, rating, review_text) 
@@ -150,4 +157,3 @@ public static function getFiltered($filters) {
         }
     }
 }
-?>

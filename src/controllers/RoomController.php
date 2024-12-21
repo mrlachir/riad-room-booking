@@ -63,107 +63,58 @@ class RoomController
 
 
     // Handle room booking
-//     public function bookRoom()
-// {
-//     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//         try {
-//             // Fetch necessary data for booking
-//             $userId = $_SESSION['user']['USER_ID'];
-//             $roomId = $_POST['room_id'];
-//             $checkIn = $_POST['check_in'];
-//             $checkOut = $_POST['check_out'];
+    public function bookRoom()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            try {
+                // Start session if not already started
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
 
-//             // Fetch room details to get the price per night
-//             $room = Room::find($roomId); // Assuming Room::find() fetches room details by ID
-//             if (!$room) {
-//                 throw new Exception("Room not found.");
-//             }
+                // Fetch necessary data for booking
+                $userId = $_SESSION['user']['USER_ID'];
+                $roomId = $_POST['room_id'];
+                $checkIn = $_POST['check_in'];
+                $checkOut = $_POST['check_out'];
 
-//             $pricePerNight = $room['PRICE'];
+                // Fetch room details to get the price per night
+                $room = Room::find($roomId);
+                if (!$room) {
+                    throw new Exception("Room not found.");
+                }
 
-//             // Calculate the total number of nights
-//             $checkInDate = new DateTime($checkIn);
-//             $checkOutDate = new DateTime($checkOut);
-//             $interval = $checkInDate->diff($checkOutDate);
+                $pricePerNight = $room['PRICE'];
 
-//             if ($interval->days <= 0) {
-//                 throw new Exception("Invalid date range. Check-out must be after check-in.");
-//             }
+                // Calculate total price
+                $checkInDate = new DateTime($checkIn);
+                $checkOutDate = new DateTime($checkOut);
+                $interval = $checkInDate->diff($checkOutDate);
 
-//             $totalPrice = $interval->days * $pricePerNight;
+                if ($interval->days <= 0) {
+                    throw new Exception("Invalid date range. Check-out must be after check-in.");
+                }
 
-//             // Create a new booking in the database (assumes createBooking handles the insertion)
-//             $bookingId = Booking::createBooking($userId, $roomId, $checkIn, $checkOut, $totalPrice);
-//             if (session_status() === PHP_SESSION_NONE) {
-//                 session_start();
-//             }
-//             // Store the booking ID in session to retrieve later
-//             $_SESSION['last_booking_id'] = $bookingId;
+                $totalPrice = $interval->days * $pricePerNight;
 
-//             // Redirect to the booking confirmation page with the booking ID
-//             header("Location: index.php?page=confirmation&bookingId=" . $bookingId);
-//             exit;
-//         } catch (Exception $e) {
-//             // Error handling if something goes wrong
-//             echo "<h1>Error: " . $e->getMessage() . "</h1>";
-//         }
-//     }
-// }
+                // Create a new booking
+                $bookingId = Booking::createBooking($userId, $roomId, $checkIn, $checkOut, $totalPrice);
+                if (!$bookingId) {
+                    throw new Exception("Failed to create booking. Booking ID not generated.");
+                }
 
-public function bookRoom()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        try {
-            // Start session if not already started
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
+                // Store the booking ID in session
+                $_SESSION['last_booking_id'] = $bookingId;
+
+                // Redirect to confirmation page
+                header("Location: index.php?page=confirmation&bookingId=" . urlencode($bookingId));
+                exit;
+            } catch (Exception $e) {
+                // Error handling
+                echo "<h1>Error: " . $e->getMessage() . "</h1>";
             }
-
-            // Fetch necessary data for booking
-            $userId = $_SESSION['user']['USER_ID'];
-            $roomId = $_POST['room_id'];
-            $checkIn = $_POST['check_in'];
-            $checkOut = $_POST['check_out'];
-
-            // Fetch room details to get the price per night
-            $room = Room::find($roomId);
-            if (!$room) {
-                throw new Exception("Room not found.");
-            }
-
-            $pricePerNight = $room['PRICE'];
-
-            // Calculate total price
-            $checkInDate = new DateTime($checkIn);
-            $checkOutDate = new DateTime($checkOut);
-            $interval = $checkInDate->diff($checkOutDate);
-
-            if ($interval->days <= 0) {
-                throw new Exception("Invalid date range. Check-out must be after check-in.");
-            }
-
-            $totalPrice = $interval->days * $pricePerNight;
-
-            // Create a new booking
-            $bookingId = Booking::createBooking($userId, $roomId, $checkIn, $checkOut, $totalPrice);
-            if (!$bookingId) {
-                throw new Exception("Failed to create booking. Booking ID not generated.");
-            }
-
-            // Store the booking ID in session
-            $_SESSION['last_booking_id'] = $bookingId;
-
-            // Redirect to confirmation page
-            header("Location: index.php?page=confirmation&bookingId=" . urlencode($bookingId));
-            exit;
-        } catch (Exception $e) {
-            // Error handling
-            echo "<h1>Error: " . $e->getMessage() . "</h1>";
         }
     }
-}
-
-
 
 
 

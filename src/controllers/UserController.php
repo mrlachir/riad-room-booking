@@ -1,8 +1,10 @@
 <?php
 include_once __DIR__ . '/../models/User.php';
 
-class UserController {
-    public function register() {
+class UserController
+{
+    public function register()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 // Get form data
@@ -79,45 +81,46 @@ class UserController {
     //     }
     // }
     public function login()
-{
-    // Default error variable
-    $error = null;
+    {
+        // Default error variable
+        $error = null;
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        try {
-            $email = trim($_POST['email'] ?? '');
-            $password = $_POST['password'] ?? '';
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            try {
+                $email = trim($_POST['email'] ?? '');
+                $password = $_POST['password'] ?? '';
 
-            // Validate inputs
-            if (empty($email) || empty($password)) {
-                throw new Exception("Email and password are required.");
+                // Validate inputs
+                if (empty($email) || empty($password)) {
+                    throw new Exception("Email and password are required.");
+                }
+
+                // Attempt login
+                $user = User::login($email, $password);
+                if (!$user) {
+                    throw new Exception("Invalid email or password.");
+                }
+
+                // Start session and store user data
+                session_start();
+                $_SESSION['user'] = $user;
+
+                // Redirect to dashboard
+                header("Location: index.php?page=rooms");
+                exit;
+            } catch (Exception $e) {
+                // Set error message for the view
+                $error = $e->getMessage();
             }
-
-            // Attempt login
-            $user = User::login($email, $password);
-            if (!$user) {
-                throw new Exception("Invalid email or password.");
-            }
-
-            // Start session and store user data
-            session_start();
-            $_SESSION['user'] = $user;
-
-            // Redirect to dashboard
-            header("Location: index.php?page=rooms");
-            exit;
-        } catch (Exception $e) {
-            // Set error message for the view
-            $error = $e->getMessage();
         }
+
+        // Include the login view
+        include __DIR__ . '/../views/login.php';
     }
 
-    // Include the login view
-    include __DIR__ . '/../views/login.php';
-}
 
-
-    public function logout() {
+    public function logout()
+    {
         session_start();
         session_destroy();
 
@@ -126,7 +129,8 @@ class UserController {
         exit;
     }
 
-    public function profile() {
+    public function profile()
+    {
         session_start();
         if (!isset($_SESSION['user'])) {
             header("Location: index.php?page=login");
@@ -145,7 +149,8 @@ class UserController {
         }
     }
 
-    public function updateProfile() {
+    public function updateProfile()
+    {
         session_start();
         if (!isset($_SESSION['user'])) {
             header("Location: index.php?page=login");
@@ -181,7 +186,8 @@ class UserController {
         }
     }
 
-    public function changePassword() {
+    public function changePassword()
+    {
         session_start();
         if (!isset($_SESSION['user'])) {
             header("Location: index.php?page=login");
@@ -220,4 +226,3 @@ class UserController {
         }
     }
 }
-?>
