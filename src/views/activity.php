@@ -64,3 +64,6 @@ include 'layout/navbar.php';
 </body>
 </html>
 
+<?php
+include __DIR__ . '/layout/footer.php'; 
+?>

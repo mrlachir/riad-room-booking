@@ -165,3 +165,6 @@ a:hover {
     <p>Already have an account? <a href="index.php?page=login">Login here</a>.</p>
 </body>
 </html>
+<?php
+include __DIR__ . '/layout/footer.php'; 
+?>

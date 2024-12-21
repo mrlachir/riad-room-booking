@@ -59,3 +59,6 @@ include 'layout/navbar.php';
         background-color: #0056b3;
     }
 </style>
+<?php
+include __DIR__ . '/layout/footer.php'; 
+?>

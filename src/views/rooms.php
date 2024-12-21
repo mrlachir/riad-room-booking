@@ -26,23 +26,6 @@ include 'layout/navbar.php';
                            value="<?php echo htmlspecialchars($_GET['max_price'] ?? ''); ?>">
                 </div>
                 
-                <!-- <div class="filter-group">
-                    <label for="capacity">Capacity</label>
-                    <select id="capacity" name="capacity">
-                        <option value="">Any</option>
-                        <option value="1">1 Person</option>
-                        <option value="2">2 People</option>
-                        <option value="4">4 People</option>
-                        <option value="6">6+ People</option>
-                    </select>
-                </div> -->
-                
-                <!-- <div class="filter-group">
-                    <label for="available_date">Check-in Date</label>
-                    <input type="date" id="available_date" name="available_date" 
-                           value="<?php echo htmlspecialchars($_GET['available_date'] ?? ''); ?>">
-                </div> -->
-                
                 <button type="submit" class="filter-button">Apply Filters</button>
             </div>
         </form>

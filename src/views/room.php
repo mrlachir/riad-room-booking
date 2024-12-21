@@ -214,3 +214,7 @@ include 'layout/navbar.php';
 
 
 </html>
+
+<?php
+include __DIR__ . '/layout/footer.php'; 
+?>

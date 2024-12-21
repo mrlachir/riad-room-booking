@@ -34,6 +34,13 @@ function checkUserLogin()
 // Main Routing Logic
 try {
     switch ($page) {
+        case 'about': // About Us page
+            include __DIR__ . '/../src/views/about.php';
+            break;
+        
+        case 'contact': // Contact Us page
+            include __DIR__ . '/../src/views/contact.php';
+            break;
         // Homepage
         case 'home':
             $controller = new HomeController();  
