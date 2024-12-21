@@ -3,19 +3,25 @@
 require_once __DIR__ . '/../src/controllers/RoomController.php';
 require_once __DIR__ . '/../src/controllers/ActivityController.php';
 require_once __DIR__ . '/../src/controllers/UserController.php';
+require_once __DIR__ . '/../src/controllers/HomeController.php'; // Include the HomeController
 
 // Start a session
 session_start();
 
-
 // Sanitize and determine the requested page and ID (if applicable)
-$page = isset($_GET['page']) ? htmlspecialchars($_GET['page']) : 'rooms'; // Default to 'rooms'
+$page = isset($_GET['page']) ? htmlspecialchars($_GET['page']) : 'home'; // Default to 'home'
 $id = isset($_GET['id']) ? (int) $_GET['id'] : null; // Ensure ID is an integer
 
 // Main Routing Logic
 try {
     switch ($page) {
-            // Room Pages
+        // Homepage
+        case 'home': // Homepage
+            $controller = new HomeController();  // Instantiate HomeController
+            $controller->index();  // Call the index method
+            break;
+
+        // Room Pages
         case 'rooms': // Room listing page
             $controller = new RoomController();
             $controller->index();
@@ -45,7 +51,6 @@ try {
             }
             break;
 
-
         case 'confirmation': // Booking confirmation page
             if (isset($_GET['bookingId'])) {
                 $bookingId = (int) $_GET['bookingId'];
@@ -64,7 +69,7 @@ try {
             $controller->addReview();
             break;
 
-            // Activity Pages
+        // Activity Pages
         case 'activities': // Activity listing page
             $controller = new ActivityController();
             $controller->index();
@@ -79,7 +84,7 @@ try {
             }
             break;
 
-            // User Authentication and Profile Management
+        // User Authentication and Profile Management
         case 'register': // User registration page
             $controller = new UserController();
             $controller->register();
@@ -122,7 +127,7 @@ try {
             }
             break;
 
-            // Fallback for unknown pages
+        // Fallback for unknown pages
         default:
             throw new Exception("Page not found.");
     }
@@ -145,8 +150,9 @@ try {
 </head>
 <body>
     <h1>Error: " . htmlspecialchars($e->getMessage()) . "</h1>
-    <p>Please go back to the <a href='/index.php?page=rooms'>home page</a>.</p>
+    <p>Please go back to the <a href='/index.php?page=home'>home page</a>.</p>
 </body>
 </html>
-
-";}
+";
+}
+?>

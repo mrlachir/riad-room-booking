@@ -156,4 +156,27 @@ class Room
             throw new Exception("Failed to add review.");
         }
     }
+
+
+
+    // public static function getFeaturedRooms()
+    // {
+    //     global $conn;
+
+    //     $query = "
+    //         SELECT r.* 
+    //         FROM rooms r 
+    //         JOIN featured_rooms fr ON r.room_id = fr.room_id
+    //     ";
+    //     $stid = oci_parse($conn, $query);
+        
+    //     oci_execute($stid);
+
+    //     $featuredRooms = array();
+    //     while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+    //         $featuredRooms[] = $row;
+    //     }
+    //     oci_free_statement($stid);
+    //     return $featuredRooms;
+    // }
 }

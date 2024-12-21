@@ -64,4 +64,26 @@ class Review
 
         oci_free_statement($statement);
     }
+
+
+    // public static function getFeaturedReviews()
+    // {
+    //     global $conn;
+
+    //     $query = "
+    //         SELECT r.*, fr.featured_review_id
+    //         FROM reviews r
+    //         JOIN featured_reviews fr ON r.review_id = fr.review_id
+    //     ";
+    //     $statement = oci_parse($conn, $query);
+    //     oci_execute($statement);
+
+    //     $reviews = [];
+    //     while ($review = oci_fetch_assoc($statement)) {
+    //         $reviews[] = $review;  // Add review to the array
+    //     }
+
+    //     oci_free_statement($statement);
+    //     return $reviews;
+    // }
 }
