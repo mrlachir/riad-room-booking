@@ -1,5 +1,7 @@
 <?php
 include_once __DIR__ . '/../models/User.php';
+// $_SESSION['user_id'] = $userId; // Set the logged-in user ID.
+
 
 class UserController
 {
@@ -49,37 +51,6 @@ class UserController
         }
     }
 
-    // public function login() {
-    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //         try {
-    //             $email = trim($_POST['email'] ?? '');
-    //             $password = $_POST['password'] ?? '';
-
-    //             // Validate inputs
-    //             if (empty($email) || empty($password)) {
-    //                 throw new Exception("Email and password are required.");
-    //             }
-
-    //             $user = User::login($email, $password);
-    //             if (!$user) {
-    //                 throw new Exception("Invalid email or password.");
-    //             }
-
-    //             // Start session and store user data
-    //             session_start();
-    //             $_SESSION['user'] = $user;
-
-    //             // Redirect to dashboard
-    //             header("Location: index.php?page=rooms");
-    //             exit;
-    //         } catch (Exception $e) {
-    //             $errorMessage = $e->getMessage();
-    //             include __DIR__ . '/../views/login.php';
-    //         }
-    //     } else {
-    //         include __DIR__ . '/../views/login.php';
-    //     }
-    // }
     public function login()
     {
         // Default error variable
@@ -107,6 +78,7 @@ class UserController
 
                 // Redirect to dashboard
                 header("Location: index.php?page=rooms");
+                
                 exit;
             } catch (Exception $e) {
                 // Set error message for the view

@@ -7,6 +7,7 @@ require_once __DIR__ . '/../src/controllers/UserController.php';
 // Start a session
 session_start();
 
+
 // Sanitize and determine the requested page and ID (if applicable)
 $page = isset($_GET['page']) ? htmlspecialchars($_GET['page']) : 'rooms'; // Default to 'rooms'
 $id = isset($_GET['id']) ? (int) $_GET['id'] : null; // Ensure ID is an integer

@@ -62,29 +62,29 @@
                 </div>
 
                 <form action="index.php?page=bookRoom" method="POST" class="bg-white p-6 rounded-lg shadow-md">
-    <input type="hidden" name="room_id" value="<?php echo htmlentities($room['ROOM_ID']); ?>">
+                    <input type="hidden" name="room_id" value="<?php echo htmlentities($room['ROOM_ID']); ?>">
 
-    <?php if (isset($errorMessage)): ?>
-        <div class="text-red-500 text-sm mb-4">
-            <?php echo htmlentities($errorMessage); ?>
-        </div>
-    <?php endif; ?>
+                    <?php if (isset($errorMessage)): ?>
+                        <div class="text-red-500 text-sm mb-4">
+                            <?php echo htmlentities($errorMessage); ?>
+                        </div>
+                    <?php endif; ?>
 
-    <div class="grid grid-cols-2 gap-4">
-        <div>
-            <label class="block text-gray-700 mb-2">Check-in</label>
-            <input type="date" name="check_in" class="w-full px-3 py-2 border rounded-md" required>
-        </div>
-        <div>
-            <label class="block text-gray-700 mb-2">Check-out</label>
-            <input type="date" name="check_out" class="w-full px-3 py-2 border rounded-md" required>
-        </div>
-    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Check-in</label>
+                            <input type="date" name="check_in" class="w-full px-3 py-2 border rounded-md" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Check-out</label>
+                            <input type="date" name="check_out" class="w-full px-3 py-2 border rounded-md" required>
+                        </div>
+                    </div>
 
-    <button type="submit" class="w-full mt-4 bg-yellow-500 text-white py-3 rounded-md hover:bg-yellow-600 transition duration-300">
-        Book Now
-    </button>
-</form>
+                    <button type="submit" class="w-full mt-4 bg-yellow-500 text-white py-3 rounded-md hover:bg-yellow-600 transition duration-300">
+                        Book Now
+                    </button>
+                </form>
 
 
             </div>
@@ -102,13 +102,14 @@
 
         <!-- Reviews Section -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-12">
-            <h2 class="section-title text-2xl font-bold text-gray-800 mb-4">Guest Reviews</h2>
+            <h2 class="section-title text-2xl font-bold text-gray-800 mb-4">Reviews</h2>
             <?php if (!empty($reviews)): ?>
                 <div class="space-y-4">
+                    
                     <?php foreach ($reviews as $review): ?>
                         <div class="p-4 bg-gray-100 rounded-md">
                             <h4 class="font-bold text-gray-800">
-                                <?php echo htmlentities($review['user_name'] ?? 'Anonymous'); ?>
+                                <!-- <?php echo htmlentities($review['user_id'] ?? 'Anonymous'); ?> -->
                             </h4>
                             <div class="flex items-center text-yellow-500">
                                 <?php for ($i = 0; $i < ($review['RATING'] ?? 0); $i++): ?>
