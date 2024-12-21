@@ -2,9 +2,9 @@
 include __DIR__ . '/layout/navbar.php'; 
 ?>
 
-<pre>
+<!-- <pre>
 <?php print_r($featuredRooms); ?>
-</pre>
+</pre> -->
 
 
 <div class="container">
@@ -63,7 +63,7 @@ include __DIR__ . '/layout/navbar.php';
     </section>
 
 
-    
+
     <!-- Featured Activities Section -->
     <section class="featured-activities">
         <h2>Featured Activities</h2>
