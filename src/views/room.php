@@ -105,11 +105,11 @@
             <h2 class="section-title text-2xl font-bold text-gray-800 mb-4">Reviews</h2>
             <?php if (!empty($reviews)): ?>
                 <div class="space-y-4">
-                    
+
                     <?php foreach ($reviews as $review): ?>
                         <div class="p-4 bg-gray-100 rounded-md">
                             <h4 class="font-bold text-gray-800">
-                            <?php echo htmlentities($review['USER_NAME'] ?? 'Anonymous'); ?>
+                                <?php echo htmlentities($review['USER_NAME'] ?? 'Anonymous'); ?>
 
                             </h4>
                             <div class="flex items-center text-yellow-500">
@@ -128,7 +128,7 @@
             <?php endif; ?>
 
             <!-- Write a Review Form -->
-            <div class="mt-6">
+            <!-- <div class="mt-6">
                 <form action="index.php?page=addReview" method="POST">
                     <input type="hidden" name="room_id" value="<?php echo htmlentities($room['ROOM_ID']); ?>">
                     <div class="grid grid-cols-1 gap-4">
@@ -151,7 +151,44 @@
                         </button>
                     </div>
                 </form>
-            </div>
+            </div> -->
+            <!-- Write a Review Form -->
+<?php if (isset($_SESSION['user'])): ?>
+    <?php if ($hasBooked): ?>
+        <div class="mt-6">
+            <form action="index.php?page=addReview" method="POST">
+                <input type="hidden" name="room_id" value="<?php echo htmlentities($room['ROOM_ID']); ?>">
+                <div class="grid grid-cols-1 gap-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Rating</label>
+                        <select name="rating" class="w-full px-3 py-2 border rounded-md">
+                            <option value="5">5 - Excellent</option>
+                            <option value="4">4 - Good</option>
+                            <option value="3">3 - Average</option>
+                            <option value="2">2 - Poor</option>
+                            <option value="1">1 - Terrible</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Your Review</label>
+                        <textarea name="review_text" rows="4" class="w-full px-3 py-2 border rounded-md" placeholder="Write your review here..." required></textarea>
+                    </div>
+                    <button type="submit" class="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 transition duration-300">
+                        Submit Review
+                    </button>
+                </div>
+            </form>
+        </div>
+    <?php else: ?>
+        <div class="mt-6 text-gray-600">
+            <p>You need to book and stay in this room before you can leave a review.</p>
+        </div>
+    <?php endif; ?>
+<?php else: ?>
+    <div class="mt-6 text-gray-600">
+        <p>Please <a href="index.php?page=login" class="text-blue-500 hover:underline">login</a> to leave a review.</p>
+    </div>
+<?php endif; ?>
         </div>
 
         <!-- Recommended Rooms -->
