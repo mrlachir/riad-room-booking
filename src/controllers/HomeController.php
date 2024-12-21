@@ -1,21 +1,29 @@
 <?php
-include_once __DIR__ . '/../models/Home.php';
+
+require_once __DIR__ . '/../models/Home.php';
 
 class HomeController
 {
-    // Home page controller
+    private $homeModel;
+
+    public function __construct()
+    {
+        $this->homeModel = new Home();
+    }
+
     public function index()
     {
         try {
-            // Fetch the required data for the home page
-            $headerData = Home::getHeaderData();  // Data for the header image and text
-            $featuredActivities = Home::getFeaturedActivities();  // Featured activities
-            $featuredRooms = Home::getFeaturedRooms();  // Featured rooms
-            $featuredReviews = Home::getFeaturedReviews();  // Featured reviews
+            // Fetch homepage data
+            $homepageHeader = $this->homeModel->getHomepageHeader();
+            // $featuredReviews = $this->homeModel->getFeaturedReviews();
+            $featuredActivities = $this->homeModel->getFeaturedActivities();
+            $featuredRooms = $this->homeModel->getFeaturedRooms();
 
-            // Pass the data to the view
-            require_once __DIR__ . '/../views/home.php';
+            // Include the view and pass data
+            include __DIR__ . '/../views/home.php';
         } catch (Exception $e) {
+            // Handle any errors and display them
             echo "Error: " . $e->getMessage();
         }
     }

@@ -1,79 +1,101 @@
 <?php
-// Ensure that header data is available
-$headerImage = isset($headerData['header_image']) ? $headerData['header_image'] : 'default-header.jpg';
-$overlayText = isset($headerData['overlay_text']) ? $headerData['overlay_text'] : 'Welcome to Our Website!';
+// include __DIR__ . '/layout/header.php'; 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="/path/to/your/styles.css">
-</head>
-<body>
+<div class="container">
 
-    <!-- Header Section -->
-    <section class="header" style="background-image: url('<?php echo htmlspecialchars($headerImage); ?>');">
-        <div class="overlay">
-            <h1><?php echo htmlspecialchars($overlayText); ?></h1>
-        </div>
+    <!-- Homepage Header Section -->
+    <section class="homepage-header">
+        <?php if ($homepageHeader): ?>
+            <div class="header-image" style="background-image: url('<?php echo htmlspecialchars($homepageHeader['image'] ?? 'default-header.jpg'); ?>');">
+                <div class="overlay">
+                    <h1><?php echo htmlspecialchars($homepageHeader['overlay_text'] ?? 'Welcome to Riad Room Booking'); ?></h1>
+                </div>
+            </div>
+        <?php endif; ?>
     </section>
 
-    <!-- Featured Activities -->
+    <!-- <section class="featured-reviews">
+        <h2>Featured Reviews</h2>
+        <table class="reviews-table" border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>Review Text</th>
+                    <th>Rating</th>
+                    <th>Review Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($featuredReviews as $review): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($review['user_name'] ?? 'Anonymous'); ?></td>
+                        <td><?php echo htmlspecialchars($review['review_text'] ?? 'No review text available.'); ?></td>
+                        <td><?php echo htmlspecialchars($review['rating'] ?? 'N/A'); ?>/5</td>
+                        <td><?php echo isset($review['review_date']) ? date('F j, Y', strtotime($review['review_date'])) : 'N/A'; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </section> -->
+    
+
+
+
+    <!-- Featured Activities Section -->
     <section class="featured-activities">
         <h2>Featured Activities</h2>
-        <div class="activity-list">
-            <?php if (!empty($featuredActivities)): ?>
+        <table class="activities-table" border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Activity Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
                 <?php foreach ($featuredActivities as $activity): ?>
-                    <div class="activity-item">
-                        <img src="<?php echo htmlspecialchars($activity['image']); ?>" alt="<?php echo htmlspecialchars($activity['name']); ?>">
-                        <h3><?php echo htmlspecialchars($activity['name']); ?></h3>
-                        <a href="/index.php?page=activity&id=<?php echo $activity['activity_id']; ?>">View Details</a>
-                    </div>
+                    <tr>
+                        <td><img src="<?php echo htmlspecialchars($activity['image'] ?? 'default-activity.jpg'); ?>" alt="<?php echo htmlspecialchars($activity['name'] ?? 'Activity'); ?>" style="width: 100px; height: auto;"></td>
+                        <td><?php echo htmlspecialchars($activity['name'] ?? 'Activity'); ?></td>
+                        <td><?php echo htmlspecialchars($activity['description'] ?? 'No description available.'); ?></td>
+                        <td>$<?php echo htmlspecialchars(number_format($activity['price'] ?? 0, 2)); ?></td>
+                    </tr>
                 <?php endforeach; ?>
-            <?php else: ?>
-                <p>No featured activities available.</p>
-            <?php endif; ?>
-        </div>
+            </tbody>
+        </table>
     </section>
 
-    <!-- Featured Rooms -->
+    <!-- Featured Rooms Section -->
     <section class="featured-rooms">
         <h2>Featured Rooms</h2>
-        <div class="room-list">
-            <?php if (!empty($featuredRooms)): ?>
+        <table class="rooms-table" border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Room Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
                 <?php foreach ($featuredRooms as $room): ?>
-                    <div class="room-item">
-                        <img src="<?php echo htmlspecialchars($room['image']); ?>" alt="<?php echo htmlspecialchars($room['name']); ?>">
-                        <h3><?php echo htmlspecialchars($room['name']); ?></h3>
-                        <a href="/index.php?page=room&id=<?php echo $room['room_id']; ?>">View Details</a>
-                    </div>
+                    <tr>
+                        <td><img src="<?php echo htmlspecialchars($room['image'] ?? 'default-room.jpg'); ?>" alt="<?php echo htmlspecialchars($room['name'] ?? 'Room'); ?>" style="width: 100px; height: auto;"></td>
+                        <td><?php echo htmlspecialchars($room['name'] ?? 'Room'); ?></td>
+                        <td><?php echo htmlspecialchars($room['description'] ?? 'No description available.'); ?></td>
+                        <td>$<?php echo htmlspecialchars(number_format($room['price'] ?? 0, 2)); ?></td>
+                        <td><?php echo htmlspecialchars($room['room_type'] ?? 'Unknown'); ?></td>
+                    </tr>
                 <?php endforeach; ?>
-            <?php else: ?>
-                <p>No featured rooms available.</p>
-            <?php endif; ?>
-        </div>
+            </tbody>
+        </table>
     </section>
 
-    <!-- Featured Reviews -->
-    <section class="featured-reviews">
-        <h2>Featured Reviews</h2>
-        <div class="review-list">
-            <?php if (!empty($featuredReviews)): ?>
-                <?php foreach ($featuredReviews as $review): ?>
-                    <div class="review-item">
-                        <p><?php echo htmlspecialchars($review['review_text']); ?></p>
-                        <p><strong>Rating:</strong> <?php echo htmlspecialchars($review['rating']); ?></p>
-                        <p><strong>By:</strong> <?php echo htmlspecialchars($review['username']); ?></p>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>No featured reviews available.</p>
-            <?php endif; ?>
-        </div>
-    </section>
+</div>
 
-</body>
-</html>
+<?php
+// include __DIR__ . '/layout/footer.php'; 
+?>

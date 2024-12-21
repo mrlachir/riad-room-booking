@@ -36,8 +36,8 @@ try {
     switch ($page) {
         // Homepage
         case 'home':
-            $controller = new HomeController();  // Instantiate HomeController
-            $controller->index();  // Call the index method
+            $controller = new HomeController();  
+            $controller->index();  
             break;
 
         // Room Pages
