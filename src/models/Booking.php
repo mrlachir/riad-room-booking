@@ -39,31 +39,45 @@ class Booking {
     }
     
     // Create a new booking
-    public static function createBooking($userId, $roomId, $checkIn, $checkOut, $totalPrice) {
-        // First check if the room is available
-        if (!self::isRoomAvailable($roomId, $checkIn, $checkOut)) {
-            throw new Exception("Room is not available for the selected dates.");
-        }
+    public static function createBooking($userId, $roomId, $checkIn, $checkOut, $totalPrice)
+{
+    global $conn;
 
-        global $conn;
-
-        $query = "INSERT INTO bookings (user_id, room_id, check_in, check_out, total_price) 
-                  VALUES (:userId, :roomId, TO_DATE(:checkIn, 'YYYY-MM-DD'), TO_DATE(:checkOut, 'YYYY-MM-DD'), :totalPrice)";
-        $statement = oci_parse($conn, $query);
-        oci_bind_by_name($statement, ":userId", $userId);
-        oci_bind_by_name($statement, ":roomId", $roomId);
-        oci_bind_by_name($statement, ":checkIn", $checkIn);
-        oci_bind_by_name($statement, ":checkOut", $checkOut);
-        oci_bind_by_name($statement, ":totalPrice", $totalPrice);
-
-        if (!oci_execute($statement)) {
-            $e = oci_error($statement);
-            oci_free_statement($statement);
-            throw new Exception("Error creating booking: " . $e['message']);
-        }
-
-        oci_free_statement($statement);
+    // First check if the room is available
+    if (!self::isRoomAvailable($roomId, $checkIn, $checkOut)) {
+        throw new Exception("Room is not available for the selected dates.");
     }
+
+    $query = "INSERT INTO bookings (user_id, room_id, check_in, check_out, total_price) 
+              VALUES (:userId, :roomId, TO_DATE(:checkIn, 'YYYY-MM-DD'), TO_DATE(:checkOut, 'YYYY-MM-DD'), :totalPrice)
+              RETURNING booking_id INTO :bookingId";
+
+    // Prepare the statement
+    $statement = oci_parse($conn, $query);
+
+    // Bind parameters
+    oci_bind_by_name($statement, ":userId", $userId);
+    oci_bind_by_name($statement, ":roomId", $roomId);
+    oci_bind_by_name($statement, ":checkIn", $checkIn);
+    oci_bind_by_name($statement, ":checkOut", $checkOut);
+    oci_bind_by_name($statement, ":totalPrice", $totalPrice);
+
+    // Bind the RETURNING value
+    oci_bind_by_name($statement, ":bookingId", $bookingId, 32);
+
+    // Execute the statement
+    if (!oci_execute($statement, OCI_COMMIT_ON_SUCCESS)) {
+        $e = oci_error($statement);
+        oci_free_statement($statement);
+        throw new Exception("Error creating booking: " . $e['message']);
+    }
+
+    oci_free_statement($statement);
+
+    // Return the generated booking ID
+    return $bookingId;
+}
+
 
     // Get all bookings for a specific user
     public static function getByUser($userId) {

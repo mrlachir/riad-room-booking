@@ -3,10 +3,12 @@ require_once __DIR__ . '/../models/Room.php';
 require_once __DIR__ . '/../models/Booking.php';
 require_once __DIR__ . '/../models/Review.php';
 
-class RoomController {
+class RoomController
+{
 
     // Display the list of rooms with filters
-    public function index() {
+    public function index()
+    {
         // Define filters based on GET parameters
         $filters = [
             'search' => $_GET['search'] ?? '',
@@ -23,7 +25,7 @@ class RoomController {
         if (!empty($filters['available_date'])) {
             foreach ($rooms as &$room) {
                 $room['is_available'] = Booking::isRoomAvailable(
-                    $room['ROOM_ID'], 
+                    $room['ROOM_ID'],
                     $filters['available_date'],
                     date('Y-m-d', strtotime($filters['available_date'] . ' +1 day'))
                 );
@@ -40,7 +42,8 @@ class RoomController {
     }
 
     // Show a single room with details, reviews, and recommendations
-    public function show($id) {
+    public function show($id)
+    {
         try {
             // Fetch room details
             $room = Room::find($id);
@@ -57,48 +60,116 @@ class RoomController {
             echo "<h1>Error: " . $e->getMessage() . "</h1>";
         }
     }
-    
+
 
     // Handle room booking
-    public function bookRoom() {
+//     public function bookRoom()
+// {
+//     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//         try {
+//             // Fetch necessary data for booking
+//             $userId = $_SESSION['user']['USER_ID'];
+//             $roomId = $_POST['room_id'];
+//             $checkIn = $_POST['check_in'];
+//             $checkOut = $_POST['check_out'];
+
+//             // Fetch room details to get the price per night
+//             $room = Room::find($roomId); // Assuming Room::find() fetches room details by ID
+//             if (!$room) {
+//                 throw new Exception("Room not found.");
+//             }
+
+//             $pricePerNight = $room['PRICE'];
+
+//             // Calculate the total number of nights
+//             $checkInDate = new DateTime($checkIn);
+//             $checkOutDate = new DateTime($checkOut);
+//             $interval = $checkInDate->diff($checkOutDate);
+
+//             if ($interval->days <= 0) {
+//                 throw new Exception("Invalid date range. Check-out must be after check-in.");
+//             }
+
+//             $totalPrice = $interval->days * $pricePerNight;
+
+//             // Create a new booking in the database (assumes createBooking handles the insertion)
+//             $bookingId = Booking::createBooking($userId, $roomId, $checkIn, $checkOut, $totalPrice);
+//             if (session_status() === PHP_SESSION_NONE) {
+//                 session_start();
+//             }
+//             // Store the booking ID in session to retrieve later
+//             $_SESSION['last_booking_id'] = $bookingId;
+
+//             // Redirect to the booking confirmation page with the booking ID
+//             header("Location: index.php?page=confirmation&bookingId=" . $bookingId);
+//             exit;
+//         } catch (Exception $e) {
+//             // Error handling if something goes wrong
+//             echo "<h1>Error: " . $e->getMessage() . "</h1>";
+//         }
+//     }
+// }
+
+public function bookRoom()
+{
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
+            // Start session if not already started
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+
             // Fetch necessary data for booking
             $userId = $_SESSION['user']['USER_ID'];
             $roomId = $_POST['room_id'];
             $checkIn = $_POST['check_in'];
             $checkOut = $_POST['check_out'];
-            $totalPrice = $_POST['total_price'];
 
             // Fetch room details to get the price per night
-            $room = Room::find($roomId);  // Assuming Room::find() fetches room details by ID
+            $room = Room::find($roomId);
             if (!$room) {
                 throw new Exception("Room not found.");
             }
 
-            // Create a new booking in the database (assumes createBooking handles the insertion)
-            $bookingId = Booking::createBooking($userId, $roomId, $checkIn, $checkOut, $totalPrice);
+            $pricePerNight = $room['PRICE'];
 
-            // Store the booking ID in session to retrieve later
+            // Calculate total price
+            $checkInDate = new DateTime($checkIn);
+            $checkOutDate = new DateTime($checkOut);
+            $interval = $checkInDate->diff($checkOutDate);
+
+            if ($interval->days <= 0) {
+                throw new Exception("Invalid date range. Check-out must be after check-in.");
+            }
+
+            $totalPrice = $interval->days * $pricePerNight;
+
+            // Create a new booking
+            $bookingId = Booking::createBooking($userId, $roomId, $checkIn, $checkOut, $totalPrice);
+            if (!$bookingId) {
+                throw new Exception("Failed to create booking. Booking ID not generated.");
+            }
+
+            // Store the booking ID in session
             $_SESSION['last_booking_id'] = $bookingId;
 
-            // Redirect to the booking confirmation page with the booking ID
-            header("Location: index.php?page=confirmation&bookingId=" . $userId);
+            // Redirect to confirmation page
+            header("Location: index.php?page=confirmation&bookingId=" . urlencode($bookingId));
             exit;
-
         } catch (Exception $e) {
-            // Error handling if something goes wrong
+            // Error handling
             echo "<h1>Error: " . $e->getMessage() . "</h1>";
         }
     }
 }
 
-    
-    
-    
+
+
+
 
     // Add a review for a room
-    public function addReview() {
+    public function addReview()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 // Fetch necessary data for adding a review
@@ -120,7 +191,8 @@ class RoomController {
     }
 
     // Helper function to check room availability (not used in the updated index method)
-    private function isRoomAvailable($roomId) {
+    private function isRoomAvailable($roomId)
+    {
         global $conn;
 
         // Query to check room availability
@@ -136,7 +208,8 @@ class RoomController {
         // Return true if the room is available (availability = 1)
         return $room['availability'] == 1;
     }
-    public function showConfirmation($bookingId) {
+    public function showConfirmation($bookingId)
+    {
         // Assuming Booking model has a method to fetch booking details
         try {
             $booking = Booking::find($bookingId); // Fetch the booking details
@@ -146,6 +219,4 @@ class RoomController {
             echo "Error fetching booking details: " . $e->getMessage();
         }
     }
-    
 }
-?>
