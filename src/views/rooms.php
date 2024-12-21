@@ -1,6 +1,6 @@
 <?php 
-// include 'layout/header.php';
- ?>
+include 'layout/navbar.php'; 
+?>
 
 <div class="rooms-container">
     <!-- Filter Section -->

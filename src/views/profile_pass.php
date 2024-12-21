@@ -12,7 +12,9 @@
         }
     </style>
 </head>
- 
+<?php 
+include 'layout/navbar.php'; 
+?>
  <!-- Change Password -->
  <div class="max-w-lg mx-auto mt-8 p-4 bg-white rounded-lg shadow-md">
         <h2 class="text-2xl font-semibold text-gray-800 mb-6">Change Your Password</h2>

@@ -1,6 +1,7 @@
-<?php
-// include 'layout/header.php'; 
+<?php 
+include 'layout/navbar.php'; 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 

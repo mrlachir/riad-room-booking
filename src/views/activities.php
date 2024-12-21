@@ -1,5 +1,5 @@
 <?php 
-// include 'layout/header.php'; 
+include 'layout/navbar.php'; 
 ?>
 
 <h1>Activities Listing</h1>
