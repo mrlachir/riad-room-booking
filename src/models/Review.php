@@ -23,25 +23,6 @@ class Review
     oci_free_statement($statement);
     return $reviews;
 }
-// public static function getByRoomId($roomId)
-//     {
-//         global $conn;
-
-//         $query = "SELECT r.*, u.name AS user_name FROM reviews r
-//                   JOIN users u ON r.user_id = u.user_id
-//                   WHERE r.room_id = :roomId ORDER BY r.review_date DESC";
-//         $statement = oci_parse($conn, $query);
-//         oci_bind_by_name($statement, ":roomId", $roomId);
-//         oci_execute($statement);
-
-//         $reviews = [];
-//         while ($row = oci_fetch_assoc($statement)) {
-//             $reviews[] = $row;
-//         }
-
-//         oci_free_statement($statement);
-//         return $reviews;
-//     }
 
     // Add a review
     public static function addReview($userId, $roomId, $rating, $reviewText)
@@ -64,26 +45,4 @@ class Review
 
         oci_free_statement($statement);
     }
-
-
-    // public static function getFeaturedReviews()
-    // {
-    //     global $conn;
-
-    //     $query = "
-    //         SELECT r.*, fr.featured_review_id
-    //         FROM reviews r
-    //         JOIN featured_reviews fr ON r.review_id = fr.review_id
-    //     ";
-    //     $statement = oci_parse($conn, $query);
-    //     oci_execute($statement);
-
-    //     $reviews = [];
-    //     while ($review = oci_fetch_assoc($statement)) {
-    //         $reviews[] = $review;  // Add review to the array
-    //     }
-
-    //     oci_free_statement($statement);
-    //     return $reviews;
-    // }
 }

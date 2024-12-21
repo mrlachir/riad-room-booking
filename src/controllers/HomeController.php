@@ -1,25 +1,22 @@
 <?php
-// // Include the necessary models
-// require_once __DIR__ . '/../models/HomepageHeader.php';
-// require_once __DIR__ . '/../models/Room.php';
-// require_once __DIR__ . '/../models/Activity.php';
-// require_once __DIR__ . '/../models/Review.php';
-// class HomeController
-// {
-//     public function index()
-//     {
-//         // Fetch data
-//         $header = HomepageHeader::getHeader();
-//         $featuredRooms = Room::getFeaturedRooms();
-//         $featuredActivities = Activity::getFeaturedActivities();
-//         $featuredReviews = Review::getFeaturedReviews();
+include_once __DIR__ . '/../models/Home.php';
 
-//         // If no data is found, set a message
-//         if (!$header) {
-//             $header = ['IMAGE' => 'default.jpg', 'OVERLAY_TEXT' => 'Welcome to Riad Room Booking'];
-//         }
+class HomeController
+{
+    // Home page controller
+    public function index()
+    {
+        try {
+            // Fetch the required data for the home page
+            $headerData = Home::getHeaderData();  // Data for the header image and text
+            $featuredActivities = Home::getFeaturedActivities();  // Featured activities
+            $featuredRooms = Home::getFeaturedRooms();  // Featured rooms
+            $featuredReviews = Home::getFeaturedReviews();  // Featured reviews
 
-//         // Pass data to the view
-//         include __DIR__ . '/../views/home.php';
-//     }
-// }
+            // Pass the data to the view
+            require_once __DIR__ . '/../views/home.php';
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+}

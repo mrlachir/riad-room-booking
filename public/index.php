@@ -8,15 +8,34 @@ require_once __DIR__ . '/../src/controllers/HomeController.php'; // Include the 
 // Start a session
 session_start();
 
+// Helper function to handle redirection
+function redirect($page, $params = [])
+{
+    $url = '/index.php?page=' . $page;
+    if (!empty($params)) {
+        $url .= '&' . http_build_query($params);
+    }
+    header("Location: $url");
+    exit();
+}
+
 // Sanitize and determine the requested page and ID (if applicable)
 $page = isset($_GET['page']) ? htmlspecialchars($_GET['page']) : 'home'; // Default to 'home'
 $id = isset($_GET['id']) ? (int) $_GET['id'] : null; // Ensure ID is an integer
+
+// Function to check if the user is logged in
+function checkUserLogin()
+{
+    if (!isset($_SESSION['user'])) {
+        throw new Exception("You must be logged in to access this page.");
+    }
+}
 
 // Main Routing Logic
 try {
     switch ($page) {
         // Homepage
-        case 'home': // Homepage
+        case 'home':
             $controller = new HomeController();  // Instantiate HomeController
             $controller->index();  // Call the index method
             break;
@@ -37,15 +56,11 @@ try {
             break;
 
         case 'bookRoom': // Room booking action
-            if (!isset($_SESSION['user'])) {
-                throw new Exception("You must be logged in to book a room.");
-            }
+            checkUserLogin();
             $controller = new RoomController();
             $bookingSuccess = $controller->bookRoom(); // Assuming bookRoom method returns true on success
             if ($bookingSuccess) {
-                // Redirect to the confirmation page with the booking ID
-                header("Location: /index.php?page=confirmation&bookingId=" . $_SESSION['last_booking_id']);
-                exit();
+                redirect('confirmation', ['bookingId' => $_SESSION['last_booking_id']]);
             } else {
                 throw new Exception("Booking failed. Please try again.");
             }
@@ -62,9 +77,7 @@ try {
             break;
 
         case 'addReview': // Add a review for a room
-            if (!isset($_SESSION['user'])) {
-                throw new Exception("You must be logged in to add a review.");
-            }
+            checkUserLogin();
             $controller = new RoomController();
             $controller->addReview();
             break;
@@ -101,30 +114,21 @@ try {
             break;
 
         case 'profile': // User profile page
-            if (isset($_SESSION['user'])) {
-                $controller = new UserController();
-                $controller->profile();
-            } else {
-                throw new Exception("You must be logged in to view your profile.");
-            }
+            checkUserLogin();
+            $controller = new UserController();
+            $controller->profile();
             break;
 
         case 'updateProfile': // Update user profile
-            if (isset($_SESSION['user'])) {
-                $controller = new UserController();
-                $controller->updateProfile();
-            } else {
-                throw new Exception("You must be logged in to update your profile.");
-            }
+            checkUserLogin();
+            $controller = new UserController();
+            $controller->updateProfile();
             break;
 
         case 'changePassword': // Change user password
-            if (isset($_SESSION['user'])) {
-                $controller = new UserController();
-                $controller->changePassword();
-            } else {
-                throw new Exception("You must be logged in to change your password.");
-            }
+            checkUserLogin();
+            $controller = new UserController();
+            $controller->changePassword();
             break;
 
         // Fallback for unknown pages
@@ -132,7 +136,13 @@ try {
             throw new Exception("Page not found.");
     }
 } catch (Exception $e) {
-    // Display error message with a user-friendly layout
+    // Centralized error handling
+    displayError($e->getMessage());
+}
+
+// Helper function to display error messages
+function displayError($message)
+{
     echo "
 <!DOCTYPE html>
 <html lang='en'>
@@ -149,10 +159,9 @@ try {
     </style>
 </head>
 <body>
-    <h1>Error: " . htmlspecialchars($e->getMessage()) . "</h1>
+    <h1>Error: " . htmlspecialchars($message) . "</h1>
     <p>Please go back to the <a href='/index.php?page=home'>home page</a>.</p>
 </body>
 </html>
 ";
 }
-?>
