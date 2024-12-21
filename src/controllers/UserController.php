@@ -1,7 +1,6 @@
 <?php
 include_once __DIR__ . '/../models/User.php';
-// $_SESSION['user_id'] = $userId; // Set the logged-in user ID.
-
+include_once __DIR__ . '/../models/Booking.php'; // Include Booking model
 
 class UserController
 {
@@ -78,7 +77,6 @@ class UserController
 
                 // Redirect to dashboard
                 header("Location: index.php?page=rooms");
-                
                 exit;
             } catch (Exception $e) {
                 // Set error message for the view
@@ -89,7 +87,6 @@ class UserController
         // Include the login view
         include __DIR__ . '/../views/login.php';
     }
-
 
     public function logout()
     {
@@ -103,7 +100,8 @@ class UserController
 
     public function profile()
     {
-        session_start();
+        // Check if user is logged in
+        // session_start();
         if (!isset($_SESSION['user'])) {
             header("Location: index.php?page=login");
             exit;
@@ -114,6 +112,10 @@ class UserController
             $user = User::find($userId);
             $reviews = User::getReviews($userId);
 
+            // Fetch booking history
+            $bookings = Booking::getByUser($userId); // Assuming getByUser method exists in Booking model
+
+            // Pass user, reviews, and bookings to the profile view
             include __DIR__ . '/../views/profile.php';
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
@@ -159,42 +161,49 @@ class UserController
     }
 
     public function changePassword()
-    {
-        session_start();
-        if (!isset($_SESSION['user'])) {
-            header("Location: index.php?page=login");
-            exit;
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            try {
-                $userId = $_SESSION['user']['USER_ID'];
-                $currentPassword = $_POST['current_password'] ?? '';
-                $newPassword = $_POST['new_password'] ?? '';
-                $confirmPassword = $_POST['confirm_password'] ?? '';
-
-                if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
-                    throw new Exception("All fields are required.");
-                }
-
-                if ($newPassword !== $confirmPassword) {
-                    throw new Exception("New password and confirmation do not match.");
-                }
-
-                if (strlen($newPassword) < 8) {
-                    throw new Exception("New password must be at least 8 characters long.");
-                }
-
-                User::changePassword($userId, $currentPassword, password_hash($newPassword, PASSWORD_BCRYPT));
-
-                header("Location: index.php?page=profile");
-                exit;
-            } catch (Exception $e) {
-                $errorMessage = $e->getMessage();
-                include __DIR__ . '/../views/change_password.php';
-            }
-        } else {
-            include __DIR__ . '/../views/change_password.php';
-        }
+{
+    // session_start();
+    if (!isset($_SESSION['user'])) {
+        header("Location: index.php?page=login");
+        exit;
     }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        try {
+            $userId = $_SESSION['user']['USER_ID'];
+            $currentPassword = $_POST['current_password'] ?? '';
+            $newPassword = $_POST['new_password'] ?? '';
+            $confirmPassword = $_POST['confirm_password'] ?? '';
+
+            // Validate form fields
+            if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
+                throw new Exception("All fields are required.");
+            }
+
+            if ($newPassword !== $confirmPassword) {
+                throw new Exception("New password and confirmation do not match.");
+            }
+
+            if (strlen($newPassword) < 8) {
+                throw new Exception("New password must be at least 8 characters long.");
+            }
+
+            // Assuming User::changePassword performs password change logic
+            User::changePassword($userId, $currentPassword, password_hash($newPassword, PASSWORD_BCRYPT));
+
+            header("Location: index.php?page=profile");
+            exit;
+        } catch (Exception $e) {
+            // Capture the error message and pass it to the view
+            $errorMessage = $e->getMessage();
+            include __DIR__ . '/../views/profile_pass.php';
+            
+            return;
+        }
+    } else {
+        // Initial load of the change password page
+        include __DIR__ . '/../views/profile_pass.php';
+    }
+}
+
 }

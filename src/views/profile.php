@@ -44,10 +44,10 @@
                         <label for="email" class="block text-gray-700 mb-2">Email</label>
                         <input type="email" name="email" id="email" class="w-full px-3 py-2 border rounded-md" value="<?php echo htmlentities($user['EMAIL']); ?>" required>
                     </div>
-                    <div>
+                    <!-- <div>
                         <label for="phone" class="block text-gray-700 mb-2">Phone</label>
                         <input type="tel" name="phone" id="phone" class="w-full px-3 py-2 border rounded-md" value="<?php echo htmlentities($user['PHONE']); ?>">
-                    </div>
+                    </div> -->
                 </div>
                 <div class="text-right">
                     <button type="submit" class="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 transition duration-300">
@@ -104,25 +104,11 @@
         <!-- Change Password -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-12">
             <h2 class="section-title text-2xl font-bold text-gray-800 mb-4">Change Password</h2>
-            <form action="index.php?page=changePassword" method="POST" class="space-y-4">
-                <div>
-                    <label for="current-password" class="block text-gray-700 mb-2">Current Password</label>
-                    <input type="password" name="current_password" id="current-password" class="w-full px-3 py-2 border rounded-md" required>
-                </div>
-                <div>
-                    <label for="new-password" class="block text-gray-700 mb-2">New Password</label>
-                    <input type="password" name="new_password" id="new-password" class="w-full px-3 py-2 border rounded-md" required>
-                </div>
-                <div>
-                    <label for="confirm-password" class="block text-gray-700 mb-2">Confirm New Password</label>
-                    <input type="password" name="confirm_password" id="confirm-password" class="w-full px-3 py-2 border rounded-md" required>
-                </div>
-                <div class="text-right">
-                    <button type="submit" class="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 transition duration-300">
-                        Save Password
+            <a href="index.php?page=changePassword">
+            <button type="submit" class="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 transition duration-300">
+                        change Password
                     </button>
-                </div>
-            </form>
+            </a>
         </div>
 
         <!-- Logout -->
