@@ -42,24 +42,7 @@ class RoomController
     }
 
     // Show a single room with details, reviews, and recommendations
-    // public function show($id)
-    // {
-    //     try {
-    //         // Fetch room details
-    //         $room = Room::find($id);
 
-    //         // Fetch reviews for the room
-    //         $reviews = Review::getByRoomId($id);
-
-    //         // Fetch recommended rooms
-    //         $recommendedRooms = Room::getRecommended($id);
-
-    //         // Load the room details view
-    //         include __DIR__ . '/../views/room.php';
-    //     } catch (Exception $e) {
-    //         echo "<h1>Error: " . $e->getMessage() . "</h1>";
-    //     }
-    // }
     public function show($id)
 {
     try {
