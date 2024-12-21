@@ -71,7 +71,24 @@ class Home
 
     //     return $reviews;
     // }
-    
+    public static function getGeneralReviews()
+    {
+        global $conn;
+
+        $query = "SELECT r.review_text, r.rating, r.review_date FROM reviews r
+              ORDER BY r.rating DESC, r.review_date DESC FETCH FIRST 4 ROWS ONLY"; // Fetch the top 5 reviews
+        $statement = oci_parse($conn, $query);
+        oci_execute($statement);
+
+        $reviews = [];
+        while ($row = oci_fetch_assoc($statement)) {
+            $reviews[] = $row;
+        }
+
+        oci_free_statement($statement);
+        return $reviews;
+    }
+
 
 
 

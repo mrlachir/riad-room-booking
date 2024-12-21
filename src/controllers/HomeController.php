@@ -17,6 +17,7 @@ class HomeController
             // Fetch homepage data
             $homepageHeader = $this->homeModel->getHomepageHeader();
             // $featuredReviews = $this->homeModel->getFeaturedReviews();
+            $featuredReviews = $this->homeModel->getGeneralReviews();
             $featuredActivities = $this->homeModel->getFeaturedActivities();
             $featuredRooms = $this->homeModel->getFeaturedRooms();
 

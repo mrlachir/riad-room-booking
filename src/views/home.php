@@ -38,7 +38,30 @@
             </tbody>
         </table>
     </section> -->
-    
+    <section class="featured-reviews">
+        <h2>Recent Reviews</h2>
+        <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Review Text</th>
+                    <th>Rating</th>
+                    <th>Review Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($featuredReviews as $review): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($review['REVIEW_TEXT'] ?? 'No review text available.'); ?></td>
+                        <td><?php echo htmlspecialchars($review['RATING'] ?? 'N/A'); ?>/5</td>
+                        <td><?php echo isset($review['REVIEW_DATE']) ? date('F j, Y', strtotime($review['REVIEW_DATE'])) : 'N/A'; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </section>
+
+
+
 
 
 
