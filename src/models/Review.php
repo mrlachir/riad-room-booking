@@ -5,24 +5,43 @@ class Review
 {
     // Fetch reviews by room ID
     public static function getByRoomId($roomId)
-    {
-        global $conn;
+{
+    global $conn;
 
-        $query = "SELECT r.*, u.name AS user_name FROM reviews r
-                  JOIN users u ON r.user_id = u.user_id
-                  WHERE r.room_id = :roomId ORDER BY r.review_date DESC";
-        $statement = oci_parse($conn, $query);
-        oci_bind_by_name($statement, ":roomId", $roomId);
-        oci_execute($statement);
+    $query = "SELECT r.*, u.name AS USER_NAME FROM reviews r
+              JOIN users u ON r.user_id = u.user_id
+              WHERE r.room_id = :roomId ORDER BY r.review_date DESC";
+    $statement = oci_parse($conn, $query);
+    oci_bind_by_name($statement, ":roomId", $roomId);
+    oci_execute($statement);
 
-        $reviews = [];
-        while ($row = oci_fetch_assoc($statement)) {
-            $reviews[] = $row;
-        }
-
-        oci_free_statement($statement);
-        return $reviews;
+    $reviews = [];
+    while ($row = oci_fetch_assoc($statement)) {
+        $reviews[] = $row;
     }
+
+    oci_free_statement($statement);
+    return $reviews;
+}
+// public static function getByRoomId($roomId)
+//     {
+//         global $conn;
+
+//         $query = "SELECT r.*, u.name AS user_name FROM reviews r
+//                   JOIN users u ON r.user_id = u.user_id
+//                   WHERE r.room_id = :roomId ORDER BY r.review_date DESC";
+//         $statement = oci_parse($conn, $query);
+//         oci_bind_by_name($statement, ":roomId", $roomId);
+//         oci_execute($statement);
+
+//         $reviews = [];
+//         while ($row = oci_fetch_assoc($statement)) {
+//             $reviews[] = $row;
+//         }
+
+//         oci_free_statement($statement);
+//         return $reviews;
+//     }
 
     // Add a review
     public static function addReview($userId, $roomId, $rating, $reviewText)

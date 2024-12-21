@@ -109,7 +109,8 @@
                     <?php foreach ($reviews as $review): ?>
                         <div class="p-4 bg-gray-100 rounded-md">
                             <h4 class="font-bold text-gray-800">
-                                <!-- <?php echo htmlentities($review['user_id'] ?? 'Anonymous'); ?> -->
+                            <?php echo htmlentities($review['USER_NAME'] ?? 'Anonymous'); ?>
+
                             </h4>
                             <div class="flex items-center text-yellow-500">
                                 <?php for ($i = 0; $i < ($review['RATING'] ?? 0); $i++): ?>
