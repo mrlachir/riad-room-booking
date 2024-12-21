@@ -37,7 +37,7 @@ class Booking {
         // Return true if no overlapping bookings found
         return ($row['BOOKING_COUNT'] == 0);
     }
-
+    
     // Create a new booking
     public static function createBooking($userId, $roomId, $checkIn, $checkOut, $totalPrice) {
         // First check if the room is available

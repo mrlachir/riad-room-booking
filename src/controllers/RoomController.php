@@ -4,79 +4,40 @@ require_once __DIR__ . '/../models/Booking.php';
 require_once __DIR__ . '/../models/Review.php';
 
 class RoomController {
-    
-    // Display the list of rooms
-    // Display the list of rooms
-// public function index() {
-//     $rooms = Room::getAll(); // Fetch all rooms
 
-//     if (empty($rooms)) {
-//         echo "No rooms found.";
-//         return;
-//     }
+    // Display the list of rooms with filters
+    public function index() {
+        // Define filters based on GET parameters
+        $filters = [
+            'search' => $_GET['search'] ?? '',
+            'min_price' => $_GET['min_price'] ?? '',
+            'max_price' => $_GET['max_price'] ?? '',
+            'capacity' => $_GET['capacity'] ?? '',
+            'available_date' => $_GET['available_date'] ?? ''
+        ];
 
-//     // Debug to check the structure of the rooms array
-//     var_dump($rooms); // This will show the structure of the $rooms array
+        // Fetch filtered rooms
+        $rooms = Room::getFiltered($filters);
 
-//     foreach ($rooms as &$room) {
-//         // Check if 'room_id' exists in the current room
-//         if (isset($room['room_id'])) {
-//             // Check the room availability (assuming a column named 'availability' exists in the DB)
-//             $room['available'] = $this->isRoomAvailable($room['room_id']);
-//         } else {
-//             // If 'room_id' does not exist, log the error or handle it appropriately
-//             echo "Room ID not found for a room entry!";
-//         }
-//     }
-
-//     include __DIR__ . '/../views/rooms.php';
-// }
-public function index() {
-    $filters = [
-        'search' => $_GET['search'] ?? '',
-        'min_price' => $_GET['min_price'] ?? '',
-        'max_price' => $_GET['max_price'] ?? '',
-        'capacity' => $_GET['capacity'] ?? '',
-        'available_date' => $_GET['available_date'] ?? ''
-    ];
-
-    // Get filtered rooms
-    $rooms = Room::getFiltered($filters);
-
-    // If available_date is set, check room availability
-    if (!empty($filters['available_date'])) {
-        foreach ($rooms as &$room) {
-            $room['is_available'] = Booking::isRoomAvailable(
-                $room['ROOM_ID'], 
-                $filters['available_date'],
-                date('Y-m-d', strtotime($filters['available_date'] . ' +1 day'))
-            );
+        // If available_date is provided, check room availability
+        if (!empty($filters['available_date'])) {
+            foreach ($rooms as &$room) {
+                $room['is_available'] = Booking::isRoomAvailable(
+                    $room['ROOM_ID'], 
+                    $filters['available_date'],
+                    date('Y-m-d', strtotime($filters['available_date'] . ' +1 day'))
+                );
+            }
+        } else {
+            // Set all rooms as available if no date is specified
+            foreach ($rooms as &$room) {
+                $room['is_available'] = true;
+            }
         }
-    } else {
-        // Set all rooms as available if no date is specified
-        foreach ($rooms as &$room) {
-            $room['is_available'] = true;
-        }
+
+        // Include the rooms view
+        include __DIR__ . '/../views/rooms.php';
     }
-
-    include __DIR__ . '/../views/rooms.php';
-}
-
-
-// Helper function to check room availability
-private function isRoomAvailable($roomId) {
-    // You can add a more sophisticated availability check here based on booking data or other factors.
-    // For simplicity, let's assume availability is stored in a 'availability' column (1 = available, 0 = unavailable)
-    global $conn;
-    $query = "SELECT availability FROM rooms WHERE room_id = :roomId";
-    $statement = oci_parse($conn, $query);
-    oci_bind_by_name($statement, ":roomId", $roomId);
-    oci_execute($statement);
-    $room = oci_fetch_assoc($statement);
-    oci_free_statement($statement);
-    return $room['availability'] == 1;
-}
-
 
     // Show a single room with details, reviews, and recommendations
     public function show($id) {
@@ -96,40 +57,60 @@ private function isRoomAvailable($roomId) {
             echo "<h1>Error: " . $e->getMessage() . "</h1>";
         }
     }
+    
 
     // Handle room booking
     public function bookRoom() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            try {
-                $userId = $_SESSION['user']['USER_ID'];
-                $roomId = $_POST['room_id'];
-                $checkIn = $_POST['check_in'];
-                $checkOut = $_POST['check_out'];
-                $totalPrice = $_POST['total_price'];
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        try {
+            // Fetch necessary data for booking
+            $userId = $_SESSION['user']['USER_ID'];
+            $roomId = $_POST['room_id'];
+            $checkIn = $_POST['check_in'];
+            $checkOut = $_POST['check_out'];
+            $totalPrice = $_POST['total_price'];
 
-                Booking::createBooking($userId, $roomId, $checkIn, $checkOut, $totalPrice);
-
-                // Redirect to confirmation page
-                header("Location: index.php?page=bookingConfirmation");
-                exit;
-            } catch (Exception $e) {
-                echo "<h1>Error: " . $e->getMessage() . "</h1>";
+            // Fetch room details to get the price per night
+            $room = Room::find($roomId);  // Assuming Room::find() fetches room details by ID
+            if (!$room) {
+                throw new Exception("Room not found.");
             }
+
+            // Create a new booking in the database (assumes createBooking handles the insertion)
+            $bookingId = Booking::createBooking($userId, $roomId, $checkIn, $checkOut, $totalPrice);
+
+            // Store the booking ID in session to retrieve later
+            $_SESSION['last_booking_id'] = $bookingId;
+
+            // Redirect to the booking confirmation page with the booking ID
+            header("Location: index.php?page=confirmation&bookingId=" . $userId);
+            exit;
+
+        } catch (Exception $e) {
+            // Error handling if something goes wrong
+            echo "<h1>Error: " . $e->getMessage() . "</h1>";
         }
     }
+}
+
+    
+    
+    
 
     // Add a review for a room
     public function addReview() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
+                // Fetch necessary data for adding a review
                 $userId = $_SESSION['user']['USER_ID'];
                 $roomId = $_POST['room_id'];
                 $rating = $_POST['rating'];
                 $reviewText = $_POST['review_text'];
 
+                // Add the review to the database
                 Review::addReview($userId, $roomId, $rating, $reviewText);
 
-                // Redirect back to the room page
+                // Redirect back to the room details page
                 header("Location: index.php?page=room&id=$roomId");
                 exit;
             } catch (Exception $e) {
@@ -137,5 +118,34 @@ private function isRoomAvailable($roomId) {
             }
         }
     }
+
+    // Helper function to check room availability (not used in the updated index method)
+    private function isRoomAvailable($roomId) {
+        global $conn;
+
+        // Query to check room availability
+        $query = "SELECT availability FROM rooms WHERE room_id = :roomId";
+        $statement = oci_parse($conn, $query);
+        oci_bind_by_name($statement, ":roomId", $roomId);
+        oci_execute($statement);
+
+        // Fetch the availability status
+        $room = oci_fetch_assoc($statement);
+        oci_free_statement($statement);
+
+        // Return true if the room is available (availability = 1)
+        return $room['availability'] == 1;
+    }
+    public function showConfirmation($bookingId) {
+        // Assuming Booking model has a method to fetch booking details
+        try {
+            $booking = Booking::find($bookingId); // Fetch the booking details
+            include __DIR__ . '/../views/confirmation.php'; // Render the confirmation page
+        } catch (Exception $e) {
+            // Handle error if booking is not found
+            echo "Error fetching booking details: " . $e->getMessage();
+        }
+    }
+    
 }
 ?>

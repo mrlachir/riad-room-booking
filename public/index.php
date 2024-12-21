@@ -7,9 +7,9 @@ require_once __DIR__ . '/../src/controllers/UserController.php';
 // Start a session
 session_start();
 
-// Determine the requested page and ID (if applicable)
-$page = $_GET['page'] ?? 'rooms'; // Default to 'rooms'
-$id = $_GET['id'] ?? null; // Optional ID for detailed views
+// Sanitize and determine the requested page and ID (if applicable)
+$page = isset($_GET['page']) ? htmlspecialchars($_GET['page']) : 'rooms'; // Default to 'rooms'
+$id = isset($_GET['id']) ? (int) $_GET['id'] : null; // Ensure ID is an integer
 
 // Main Routing Logic
 try {
@@ -30,11 +30,35 @@ try {
             break;
 
         case 'bookRoom': // Room booking action
+            if (!isset($_SESSION['user'])) {
+                throw new Exception("You must be logged in to book a room.");
+            }
             $controller = new RoomController();
-            $controller->bookRoom();
+            $bookingSuccess = $controller->bookRoom(); // Assuming bookRoom method returns true on success
+            if ($bookingSuccess) {
+                // Redirect to the confirmation page with the booking ID
+                header("Location: /index.php?page=confirmation&bookingId=" . $_SESSION['last_booking_id']);
+                exit();
+            } else {
+                throw new Exception("Booking failed. Please try again.");
+            }
+            break;
+            
+
+        case 'confirmation': // Booking confirmation page
+            if (isset($_GET['bookingId'])) {
+                $bookingId = (int) $_GET['bookingId'];
+                $controller = new RoomController();
+                $controller->showConfirmation($bookingId); // Assuming showConfirmation fetches booking details by ID
+            } else {
+                throw new Exception("Booking ID is required for confirmation.");
+            }
             break;
 
         case 'addReview': // Add a review for a room
+            if (!isset($_SESSION['user'])) {
+                throw new Exception("You must be logged in to add a review.");
+            }
             $controller = new RoomController();
             $controller->addReview();
             break;
@@ -123,5 +147,3 @@ try {
 </body>
 </html>";
 }
-
-?>
