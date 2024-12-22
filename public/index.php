@@ -4,6 +4,7 @@ require_once __DIR__ . '/../src/controllers/RoomController.php';
 require_once __DIR__ . '/../src/controllers/ActivityController.php';
 require_once __DIR__ . '/../src/controllers/UserController.php';
 require_once __DIR__ . '/../src/controllers/HomeController.php'; // Include the HomeController
+require_once __DIR__ . '/../src/controllers/DashboardController.php'; // Include the DashboardController
 
 // Start a session
 session_start();
@@ -31,6 +32,11 @@ function checkUserLogin()
     }
 }
 
+function isAdmin()
+{
+    return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'Admin';
+}
+
 // Main Routing Logic
 try {
     switch ($page) {
@@ -41,11 +47,20 @@ try {
         case 'contact': // Contact Us page
             include __DIR__ . '/../src/views/contact.php';
             break;
-        // Homepage
-        case 'home':
+
+        case 'home': // Homepage
             $controller = new HomeController();  
             $controller->index();  
             break;
+
+            case 'dashboardOverview': // Dashboard overview page
+                if (isAdmin()) {
+                    $dashboardController = new DashboardController();
+                    $dashboardController->overview();
+                } else {
+                    throw new Exception("Unauthorized access. Only admins can view this page.");
+                }
+                break;
 
         // Room Pages
         case 'rooms': // Room listing page

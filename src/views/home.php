@@ -3,6 +3,8 @@ include __DIR__ . '/layout/navbar.php';
 ?>
 
 <!-- <pre>
+<?php print_r($homepageHeader); ?>
+<?php print_r($featuredActivities); ?>
 <?php print_r($featuredRooms); ?>
 </pre> -->
 
@@ -41,11 +43,11 @@ include __DIR__ . '/layout/navbar.php';
             <tbody>
                 <?php foreach ($featuredRooms as $room): ?>
                     <tr>
-                        <td><img src="<?php echo htmlspecialchars($room['image'] ?? 'default-room.jpg'); ?>" alt="<?php echo htmlspecialchars($room['name'] ?? 'Room'); ?>" style="width: 100px; height: auto;"></td>
-                        <td><?php echo htmlspecialchars($room['name'] ?? 'Room'); ?></td>
-                        <td><?php echo htmlspecialchars($room['description'] ?? 'No description available.'); ?></td>
-                        <td>$<?php echo htmlspecialchars(number_format($room['price'] ?? 0, 2)); ?></td>
-                        <td><?php echo htmlspecialchars($room['room_type'] ?? 'Unknown'); ?></td>
+                        <td><img src="<?php echo htmlspecialchars($room['IMAGE'] ?? 'default-room.jpg'); ?>" alt="<?php echo htmlspecialchars($room['name'] ?? 'Room'); ?>" style="width: 100px; height: auto;"></td>
+                        <td><?php echo htmlspecialchars($room['NAME'] ?? 'Room'); ?></td>
+                        <td><?php echo htmlspecialchars($room['DESCRIPTION'] ?? 'No description available.'); ?></td>
+                        <td>$<?php echo htmlspecialchars(number_format($room['PRICE'] ?? 0, 2)); ?></td>
+                        <td><?php echo htmlspecialchars($room['ROOM_TYPE'] ?? 'Unknown'); ?></td>
                         <td>
                             <a href="/riad-room-booking/public/index.php?page=room&id=<?php echo $room['ROOM_ID']; ?>">
                                 <button>Book Now</button>
@@ -80,10 +82,10 @@ include __DIR__ . '/layout/navbar.php';
             <tbody>
                 <?php foreach ($featuredActivities as $activity): ?>
                     <tr>
-                        <td><img src="<?php echo htmlspecialchars($activity['image'] ?? 'default-activity.jpg'); ?>" alt="<?php echo htmlspecialchars($activity['name'] ?? 'Activity'); ?>" style="width: 100px; height: auto;"></td>
-                        <td><?php echo htmlspecialchars($activity['name'] ?? 'Activity'); ?></td>
-                        <td><?php echo htmlspecialchars($activity['description'] ?? 'No description available.'); ?></td>
-                        <td>$<?php echo htmlspecialchars(number_format($activity['price'] ?? 0, 2)); ?></td>
+                        <td><img src="<?php echo htmlspecialchars($activity['IMAGE'] ?? 'default-activity.jpg'); ?>" alt="<?php echo htmlspecialchars($activity['name'] ?? 'Activity'); ?>" style="width: 100px; height: auto;"></td>
+                        <td><?php echo htmlspecialchars($activity['NAME'] ?? 'Activity'); ?></td>
+                        <td><?php echo htmlspecialchars($activity['DESCRIPTION'] ?? 'No description available.'); ?></td>
+                        <td>$<?php echo htmlspecialchars(number_format($activity['PRICE'] ?? 0, 2)); ?></td>
                         <td>
                             <a href="/riad-room-booking/public/index.php?page=activity&id=<?php echo $activity['ACTIVITY_ID']; ?>">
                                 <button>Learn More</button>

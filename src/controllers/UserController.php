@@ -36,7 +36,7 @@ class UserController
                     throw new Exception("Email is already registered.");
                 }
 
-                User::register($name, $email, password_hash($password, PASSWORD_BCRYPT));
+                User::register($name, $email, $password);
 
                 // Redirect to login
                 header("Location: index.php?page=login");
@@ -51,42 +51,34 @@ class UserController
     }
 
     public function login()
-    {
-        // Default error variable
-        $error = null;
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        try {
+            $email = strtolower(trim($_POST['email']));  // Normalize email
+            $password = $_POST['password'];
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            try {
-                $email = trim($_POST['email'] ?? '');
-                $password = $_POST['password'] ?? '';
-
-                // Validate inputs
-                if (empty($email) || empty($password)) {
-                    throw new Exception("Email and password are required.");
-                }
-
-                // Attempt login
-                $user = User::login($email, $password);
-                if (!$user) {
-                    throw new Exception("Invalid email or password.");
-                }
-
-                // Start session and store user data
-                session_start();
-                $_SESSION['user'] = $user;
-
-                // Redirect to dashboard
-                header("Location: index.php?page=rooms");
-                exit;
-            } catch (Exception $e) {
-                // Set error message for the view
-                $error = $e->getMessage();
+            if (empty($email) || empty($password)) {
+                throw new Exception("Email and password are required.");
             }
-        }
 
-        // Include the login view
-        include __DIR__ . '/../views/login.php';
+            $user = User::login($email, $password);
+            if (!$user) {
+                throw new Exception("Invalid email or password.");
+            }
+
+            // Assuming session_start() is already called in index.php
+            $_SESSION['user'] = $user;  // Store user data in session
+            header("Location: index.php?page=rooms");  // Redirect to a secure page
+            exit;
+        } catch (Exception $e) {
+            $error = $e->getMessage();  // This will be passed to the login view
+        }
     }
+
+    include __DIR__ . '/../views/login.php';  // Include the login view, pass error if set
+}
+
+
 
     public function logout()
     {
@@ -189,7 +181,7 @@ class UserController
             }
 
             // Assuming User::changePassword performs password change logic
-            User::changePassword($userId, $currentPassword, password_hash($newPassword, PASSWORD_BCRYPT));
+            User::changePassword($userId, $currentPassword, $newPassword);
 
             header("Location: index.php?page=profile");
             exit;
