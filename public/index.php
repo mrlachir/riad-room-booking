@@ -5,6 +5,8 @@ require_once __DIR__ . '/../src/controllers/ActivityController.php';
 require_once __DIR__ . '/../src/controllers/UserController.php';
 require_once __DIR__ . '/../src/controllers/HomeController.php'; // Include the HomeController
 require_once __DIR__ . '/../src/controllers/DashboardController.php'; // Include the DashboardController
+require_once __DIR__ . '/../src/controllers/AdminRoomController.php'; // Include the AdminRoomController
+$adminRoomController = new AdminRoomController($conn);
 
 // Start a session
 session_start();
@@ -53,13 +55,54 @@ try {
             $controller->index();  
             break;
 
-            case 'dashboardOverview': // Dashboard overview page
-                if (isAdmin()) {
-                    $dashboardController = new DashboardController();
-                    $dashboardController->overview();
-                } else {
-                    throw new Exception("Unauthorized access. Only admins can view this page.");
-                }
+        case 'dashboardOverview': // Dashboard overview page
+            // if (isAdmin()) {
+                $dashboardController = new DashboardController();
+                $dashboardController->overview();
+            // } else {
+                // throw new Exception("Unauthorized access. Only admins can view this page.");
+            // }
+            break;
+            case 'adminRooms':
+                // if (!isAdmin()) {
+                    // throw new Exception("Unauthorized access. Only admins can view this page.");
+                // }
+                $adminRoomController->index();
+                break;
+    
+            case 'createAdminRoom':
+                // if (!isAdmin()) {
+                    // throw new Exception("Unauthorized access. Only admins can create rooms.");
+                // }
+                $adminRoomController->create();
+                break;
+    
+            case 'storeAdminRoom':
+                // if (!isAdmin()) {
+                    // throw new Exception("Unauthorized access. Only admins can store rooms.");
+                // }
+                $adminRoomController->store();
+                break;
+    
+            case 'editAdminRoom':
+                // if (!isAdmin()) {
+                    // throw new Exception("Unauthorized access. Only admins can edit rooms.");
+                // }
+                $adminRoomController->edit($_GET['id']);
+                break;
+    
+            case 'updateAdminRoom':
+                // if (!isAdmin()) {
+                //     // throw new Exception("Unauthorized access. Only admins can update rooms.");
+                // }
+                $adminRoomController->update($_GET['id']);
+                break;
+    
+            case 'deleteAdminRoom':
+                // if (!isAdmin()) {
+                //     // throw new Exception("Unauthorized access. Only admins can delete rooms.");
+                // }
+                $adminRoomController->destroy($_GET['id']);
                 break;
 
         // Room Pages

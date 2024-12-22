@@ -1,5 +1,5 @@
 <?php 
-include 'layout/navbar.php'; 
+include 'layout/admin_navbar.php'; 
 ?>
 
 <!DOCTYPE html>
