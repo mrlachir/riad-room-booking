@@ -2,7 +2,6 @@
 include 'layout/navbar.php'; 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -261,7 +260,6 @@ include 'layout/navbar.php';
     </section>
 </body>
 </html>
-
 <?php
 include __DIR__ . '/layout/footer.php'; 
 ?>
