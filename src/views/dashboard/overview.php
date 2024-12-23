@@ -1,9 +1,10 @@
+<?php include 'C:/xampp/htdocs/riad-room-booking/src/views/layout/admin_navbar.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Overview</title>
-    <link rel="stylesheet" href="/public/css/style.css"> <!-- Ensure the path is correct -->
+    <title>User Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="dashboard">

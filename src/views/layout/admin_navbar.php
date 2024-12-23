@@ -1,36 +1,38 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Hotel Management System</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link <?= ($currentPage == 'DashboardOverview')? 'active' : '';?>" href="?page=DashboardOverview">Dashboard Overview</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <?= ($currentPage == 'HomePageManagement')? 'active' : '';?>" href="?page=HomePageManagement">Home Page Management</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <?= ($currentPage == 'ManageActivities')? 'active' : '';?>" href="?page=ManageActivities">Manage Activities</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <?= ($currentPage == 'ManageRooms')? 'active' : '';?>" href="?page=ManageRooms">Manage Rooms</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <?= ($currentPage == 'ManageUsers')? 'active' : '';?>" href="?page=ManageUsers">Manage Users</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <?= ($currentPage == 'profile')? 'active' : '';?>" href="?page=profile">Profile</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ms-auto">
-                <!-- Example for a logout link, adjust as needed -->
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
-                </li>
-            </ul>
-        </div>
+<nav class="bg-gray-800 text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+        <!-- Logo -->
+        <a href="/riad-room-booking/public/index.php?page=dashboardOverview" class="text-2xl font-bold">Admin Dashboard</a>
+        
+        <!-- Navigation Links -->
+        <ul class="flex space-x-6">
+            <li>
+                <a href="/riad-room-booking/public/index.php?page=dashboardOverview" 
+                   class="hover:text-blue-400 transition">Overview</a>
+            </li>
+            <li>
+                <a href="/riad-room-booking/public/index.php?page=adminRooms" 
+                   class="hover:text-blue-400 transition">Rooms</a>
+            </li>
+            <li>
+                <a href="/riad-room-booking/public/index.php?page=adminUsers" 
+                   class="hover:text-blue-400 transition">Users</a>
+            </li>
+            <li>
+                <a href="/riad-room-booking/public/index.php?page=adminactivities" 
+                   class="hover:text-blue-400 transition">Activities</a>
+            </li>
+            <li>
+                <a href="/riad-room-booking/public/index.php?page=adminHome" 
+                   class="hover:text-blue-400 transition">Manage Home</a>
+            </li>
+            <li>
+                <a href="/riad-room-booking/public/index.php?page=profile" 
+                   class="hover:text-blue-400 transition">Profile</a>
+            </li>
+            <li>
+                <a href="/riad-room-booking/public/index.php?page=logout" 
+                   class="hover:text-blue-400 transition text-red-400">Logout</a>
+            </li>
+        </ul>
     </div>
 </nav>

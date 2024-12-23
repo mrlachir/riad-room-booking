@@ -1,3 +1,6 @@
+<?php include 'C:/xampp/htdocs/riad-room-booking/src/views/layout/admin_navbar.php'; ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

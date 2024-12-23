@@ -1,3 +1,4 @@
+<?php include 'C:/xampp/htdocs/riad-room-booking/src/views/layout/admin_navbar.php'; ?>
 
 <!-- src/views/dashboard/activities/addActivity.php -->
 <!DOCTYPE html>

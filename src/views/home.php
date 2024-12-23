@@ -13,7 +13,7 @@ include __DIR__ . '/layout/navbar.php';
     <!-- Homepage Header Section -->
     <section class="homepage-header">
         <?php if ($homepageHeader): ?>
-            <img src="<?php echo htmlspecialchars('/riad-room-booking/public/' . $homepageHeader['IMAGE']); ?>" alt="Header Image">
+            <img src="<?php echo htmlspecialchars('/riad-room-booking' . $homepageHeader['IMAGE']); ?>" alt="Header Image">
             <div class="overlay">
                 <h1><?php echo htmlspecialchars($homepageHeader['OVERLAY_TEXT'] ?? 'Welcome to Riad Room Booking'); ?></h1>
             </div>
@@ -43,7 +43,7 @@ include __DIR__ . '/layout/navbar.php';
             <tbody>
                 <?php foreach ($featuredRooms as $room): ?>
                     <tr>
-                        <td><img src="<?php echo htmlspecialchars($room['IMAGE'] ?? 'default-room.jpg'); ?>" alt="<?php echo htmlspecialchars($room['name'] ?? 'Room'); ?>" style="width: 100px; height: auto;"></td>
+                        <td><img src="<?php echo '/riad-room-booking' . htmlspecialchars($room['IMAGE'] ?? 'default-room.jpg'); ?>" alt="<?php echo htmlspecialchars($room['name'] ?? 'Room'); ?>" style="width: 100px; height: auto;"></td>
                         <td><?php echo htmlspecialchars($room['NAME'] ?? 'Room'); ?></td>
                         <td><?php echo htmlspecialchars($room['DESCRIPTION'] ?? 'No description available.'); ?></td>
                         <td>$<?php echo htmlspecialchars(number_format($room['PRICE'] ?? 0, 2)); ?></td>
@@ -82,7 +82,7 @@ include __DIR__ . '/layout/navbar.php';
             <tbody>
                 <?php foreach ($featuredActivities as $activity): ?>
                     <tr>
-                        <td><img src="<?php echo htmlspecialchars($activity['IMAGE'] ?? 'default-activity.jpg'); ?>" alt="<?php echo htmlspecialchars($activity['name'] ?? 'Activity'); ?>" style="width: 100px; height: auto;"></td>
+                        <td><img src="<?php echo '/riad-room-booking' . htmlspecialchars($activity['IMAGE'] ?? 'default-activity.jpg'); ?>" alt="<?php echo htmlspecialchars($activity['name'] ?? 'Activity'); ?>" style="width: 100px; height: auto;"></td>
                         <td><?php echo htmlspecialchars($activity['NAME'] ?? 'Activity'); ?></td>
                         <td><?php echo htmlspecialchars($activity['DESCRIPTION'] ?? 'No description available.'); ?></td>
                         <td>$<?php echo htmlspecialchars(number_format($activity['PRICE'] ?? 0, 2)); ?></td>
