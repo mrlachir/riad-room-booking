@@ -18,18 +18,3 @@
     <p>Don't have an account? <a href="index.php?page=register">Register here</a></p>
     <p><a href="index.php?page=forgot-password">Forgot Password?</a></p>
 </div>
-
-<?php
-// Manually testing the password verification
-$hash = '$2y$10$NRthEhC7R0UoXZL0B4Rr0uaLMKUToBRsWVx5aqD/19el2.axXopem';
-$password = '12345678';
-
-if (password_verify($password, $hash)) {
-    echo 'Password is valid!';
-} else {
-    echo 'Password is invalid!';
-}
-$newHash = password_hash('12345678', PASSWORD_BCRYPT);
-echo $newHash;
-
-?>
