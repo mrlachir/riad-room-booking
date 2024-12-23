@@ -6,7 +6,9 @@ require_once __DIR__ . '/../src/controllers/UserController.php';
 require_once __DIR__ . '/../src/controllers/HomeController.php'; // Include the HomeController
 require_once __DIR__ . '/../src/controllers/DashboardController.php'; // Include the DashboardController
 require_once __DIR__ . '/../src/controllers/AdminRoomController.php'; // Include the AdminRoomController
+require_once __DIR__ . '/../src/controllers/AdminActivityController.php'; // Include the AdminRoomController
 $adminRoomController = new AdminRoomController($conn);
+$adminActivityController = new AdminActivityController($conn);
 
 // Start a session
 session_start();
@@ -63,6 +65,9 @@ try {
                 // throw new Exception("Unauthorized access. Only admins can view this page.");
             // }
             break;
+
+
+
             case 'adminRooms':
                 // if (!isAdmin()) {
                     // throw new Exception("Unauthorized access. Only admins can view this page.");
@@ -92,18 +97,41 @@ try {
                 break;
     
             case 'updateAdminRoom':
-                // if (!isAdmin()) {
-                //     // throw new Exception("Unauthorized access. Only admins can update rooms.");
-                // }
                 $adminRoomController->update($_GET['id']);
                 break;
     
             case 'deleteAdminRoom':
-                // if (!isAdmin()) {
-                //     // throw new Exception("Unauthorized access. Only admins can delete rooms.");
-                // }
                 $adminRoomController->destroy($_GET['id']);
                 break;
+
+
+                case 'adminactivities':
+                    $controller = $adminActivityController; // Use the already instantiated AdminActivityController
+                    $controller->index();
+                    break;
+                case 'admincreateActivity':
+                    $controller = $adminActivityController;
+                    $controller->create();
+                    break;
+                case 'adminstoreActivity':
+                    $controller = $adminActivityController;
+                    $controller->store();
+                    break;
+                case 'admineditActivity':
+                    $controller = $adminActivityController;
+                    $controller->edit($_GET['id']);
+                    break;
+                case 'adminupdateActivity':
+                    $controller = $adminActivityController;
+                    $controller->update($_GET['id']);
+                    break;
+                case 'admindeleteActivity':
+                    $controller = $adminActivityController;
+                    $controller->destroy($_GET['id']);
+                    break;
+                
+
+            
 
         // Room Pages
         case 'rooms': // Room listing page

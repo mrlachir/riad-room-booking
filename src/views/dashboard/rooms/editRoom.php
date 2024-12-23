@@ -70,7 +70,7 @@
                 <?php if (!empty($room['IMAGE'])): ?>
                     <div class="mt-2">
                         <p class="text-sm text-gray-500">Current image:</p>
-                        <img src="<?php echo htmlspecialchars($room['IMAGE']); ?>" 
+                        <img src="<?php echo '/riad-room-booking' . htmlspecialchars($room['IMAGE']); ?>" 
                              alt="Current Room Image" 
                              class="mt-2 w-32 h-32 object-cover rounded-lg">
                     </div>
