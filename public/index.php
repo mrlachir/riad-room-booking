@@ -7,6 +7,8 @@ require_once __DIR__ . '/../src/controllers/HomeController.php'; // Include the 
 require_once __DIR__ . '/../src/controllers/DashboardController.php'; // Include the DashboardController
 require_once __DIR__ . '/../src/controllers/AdminRoomController.php'; // Include the AdminRoomController
 require_once __DIR__ . '/../src/controllers/AdminActivityController.php'; // Include the AdminRoomController
+require_once __DIR__ . '/../src/controllers/AdminUserController.php';
+
 $adminRoomController = new AdminRoomController($conn);
 $adminActivityController = new AdminActivityController($conn);
 
@@ -132,7 +134,38 @@ try {
                 
 
             
+// User Management Routes
+case 'adminUsers':
+    $controller = new AdminUserController($conn);
+    $controller->index();
+    break;
 
+case 'editAdminUser':
+    if (!$id) {
+        header("Location: index.php?page=adminUsers&error=Invalid user ID");
+        exit();
+    }
+    $controller = new AdminUserController($conn);
+    $controller->edit($id);
+    break;
+
+case 'updateAdminUser':
+    if (!$id) {
+        header("Location: index.php?page=adminUsers&error=Invalid user ID");
+        exit();
+    }
+    $controller = new AdminUserController($conn);
+    $controller->update($id);
+    break;
+
+case 'deleteAdminUser':
+    if (!$id) {
+        header("Location: index.php?page=adminUsers&error=Invalid user ID");
+        exit();
+    }
+    $controller = new AdminUserController($conn);
+    $controller->destroy($id);
+    break;
         // Room Pages
         case 'rooms': // Room listing page
             $controller = new RoomController();
