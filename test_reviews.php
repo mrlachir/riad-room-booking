@@ -16,7 +16,7 @@ $sql = "
     JOIN 
         users u ON r.user_id = u.user_id
 ";
- 
+  
 try {
     // Check Database Connection
     if (!$conn) {
