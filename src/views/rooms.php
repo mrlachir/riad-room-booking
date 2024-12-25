@@ -73,85 +73,94 @@ include 'layout/navbar.php';
         max-width: 1200px;
         margin: 0 auto;
         padding: 20px;
+        font-family: 'Arial', sans-serif;
     }
 
     .filter-section {
-        background: white;
+        background: #f9f9f9;
         padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-bottom: 30px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 40px;
     }
 
     .filter-form {
         display: flex;
-        flex-direction: column;
+        flex-wrap: wrap;
         gap: 20px;
+        align-items: flex-end;
     }
 
     .search-field input {
         width: 100%;
         padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
         font-size: 16px;
     }
 
     .filter-fields {
         display: flex;
         flex-wrap: wrap;
-        gap: 15px;
+        gap: 20px;
     }
 
     .filter-group {
         flex: 1;
-        min-width: 200px;
+        min-width: 220px;
     }
 
     .filter-group label {
         display: block;
         margin-bottom: 5px;
-        color: #666;
+        font-weight: bold;
+        color: #444;
     }
 
     .filter-group input,
     .filter-group select {
         width: 100%;
-        padding: 8px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
     }
 
     .filter-button {
-        background: #4a90e2;
+        background: #007BFF;
         color: white;
         padding: 10px 20px;
         border: none;
-        border-radius: 4px;
-        cursor: pointer;
+        border-radius: 8px;
         font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
     }
 
     .filter-button:hover {
-        background: #357abd;
+        background: #0056b3;
     }
 
     .rooms-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 30px;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
     }
 
     .room-card {
-        background: white;
-        border-radius: 8px;
+        background: #fff;
+        border-radius: 12px;
         overflow: hidden;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        transition: transform 0.2s;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
     }
 
     .room-card:hover {
-        transform: translateY(-5px);
+        transform: translateY(-10px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
 
     .room-image {
@@ -170,15 +179,17 @@ include 'layout/navbar.php';
     }
 
     .room-details h3 {
-        margin: 0 0 10px 0;
+        margin: 0 0 10px;
+        font-size: 20px;
         color: #333;
     }
 
     .room-description {
-        color: #666;
+        color: #555;
         margin-bottom: 15px;
+        font-size: 14px;
         display: -webkit-box;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
@@ -186,35 +197,39 @@ include 'layout/navbar.php';
     .room-info {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         margin-bottom: 15px;
+        font-size: 16px;
     }
 
     .price {
-        color: #4a90e2;
+        color: #007BFF;
         font-weight: bold;
     }
 
     .capacity {
-        color: #666;
+        color: #555;
     }
 
     .book-now-btn {
         display: block;
         text-align: center;
-        background: #4a90e2;
+        background: #007BFF;
         color: white;
-        padding: 10px;
-        border-radius: 4px;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 16px;
         text-decoration: none;
-        transition: background 0.2s;
+        font-weight: bold;
+        transition: background 0.3s;
     }
 
     .book-now-btn:hover {
-        background: #357abd;
+        background: #0056b3;
     }
 
     .book-now-btn.unavailable {
-        background: #e74c3c;
+        background: #E74C3C;
         cursor: not-allowed;
     }
 
@@ -222,7 +237,8 @@ include 'layout/navbar.php';
         grid-column: 1 / -1;
         text-align: center;
         padding: 40px;
-        color: #666;
+        color: #555;
+        font-size: 18px;
     }
 
     @media (max-width: 768px) {
@@ -233,7 +249,12 @@ include 'layout/navbar.php';
         .filter-group {
             min-width: 100%;
         }
+
+        .room-card {
+            margin: 0 auto;
+        }
     }
 </style>
+
 
 <?php include 'layout/footer.php'; ?>

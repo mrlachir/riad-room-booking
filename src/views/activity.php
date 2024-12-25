@@ -14,7 +14,7 @@ include 'layout/navbar.php';
         a {
             text-decoration: none;
             color: inherit;
-            background: none;
+            transition: all 0.3s ease;
         }
         body {
             font-family: 'Montserrat', sans-serif;
@@ -22,38 +22,80 @@ include 'layout/navbar.php';
         .section-title {
             font-family: 'Cormorant Garamond', serif;
         }
-        .main-image img {
+        .main-image {
+            position: relative;
             height: 80vh;
-            object-fit: cover;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+        .main-image img {
+            height: 100%;
             width: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .main-image:hover img {
+            transform: scale(1.05);
+        }
+        .activity-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .price-tag {
+            background: linear-gradient(135deg, #2c5282, #4299e1);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            display: inline-block;
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <div class="container mx-auto px-4 py-8 max-w-6xl">
+<body class="bg-gradient-to-b from-gray-50 to-white min-h-screen">
+    <div class="container mx-auto px-4 py-12 max-w-6xl">
         <!-- Activity Header -->
-        <div class="mb-12">
-            <div class="mb-6">
+        <div class="mb-16">
+            <div class="space-y-8">
                 <!-- Main Image -->
-                <div class="main-image">
-                    <img src="<?php echo htmlentities($activity['IMAGE']); ?>" alt="<?php echo htmlentities($activity['NAME']); ?>" class="object-cover rounded-lg shadow-lg mb-4">
+                <div class="main-image shadow-2xl">
+                    <img src="/riad-room-booking/public/images/activities/Snorkeling.jpeg" alt="Riad Hero Image">
                 </div>
-                <h1 class="section-title text-3xl font-bold text-gray-800"><?php echo htmlentities($activity['NAME']); ?></h1>
-                <p class="text-gray-600 leading-relaxed"><?php echo htmlentities($activity['DESCRIPTION']); ?></p>
-                <p class="text-lg text-gray-800 font-bold">Price: $<?php echo htmlentities($activity['PRICE']); ?></p>
+                
+                <div class="max-w-3xl mx-auto text-center space-y-6">
+                    <h1 class="section-title text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
+                        <?php echo htmlentities($activity['NAME']); ?>
+                    </h1>
+                    <p class="text-gray-600 leading-relaxed text-lg">
+                        <?php echo htmlentities($activity['DESCRIPTION']); ?>
+                    </p>
+                    <div class="price-tag text-lg font-semibold">
+                        $<?php echo htmlentities($activity['PRICE']); ?>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Recommended Activities -->
         <div>
-            <h2 class="section-title text-2xl font-bold text-gray-800 mb-6">Recommended Activities</h2>
-            <div class="grid md:grid-cols-3 gap-6">
+            <h2 class="section-title text-3xl font-bold text-gray-800 mb-8 text-center">
+                Discover More Adventures
+            </h2>
+            <div class="grid md:grid-cols-3 gap-8">
                 <?php foreach ($recommendedActivities as $recommended): ?>
-                    <a href="index.php?page=activity&id=<?php echo $recommended['ACTIVITY_ID']; ?>">
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                            <img src="<?php echo htmlentities($recommended['IMAGE']); ?>" class="w-full h-48 object-cover">
-                            <div class="p-4">
-                                <h3 class="font-bold text-gray-800 mb-2"><?php echo htmlentities($recommended['NAME']); ?></h3>
+                    <a href="index.php?page=activity&id=<?php echo $recommended['ACTIVITY_ID']; ?>" 
+                       class="activity-card block bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="aspect-w-16 aspect-h-9">
+                            <img src="<?php echo htmlentities($recommended['IMAGE']); ?>" 
+                                 class="w-full h-56 object-cover">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-bold text-xl text-gray-800 mb-2">
+                                <?php echo htmlentities($recommended['NAME']); ?>
+                            </h3>
+                            <div class="text-blue-600 font-semibold">
+                                Learn More →
                             </div>
                         </div>
                     </a>

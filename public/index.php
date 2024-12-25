@@ -54,7 +54,7 @@ function checkUserLogin()
 function checkAdminAccess()
 {
     if (!isAdmin()) {
-        redirect('home', ['error' => 'Unauthorized access. Admin privileges required.']);
+        // redirect('home', ['error' => 'Unauthorized access. Admin privileges required.']);
     }
 }
 

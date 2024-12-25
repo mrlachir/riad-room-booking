@@ -18,10 +18,10 @@
             <div class="footer-section">
                 <h3 class="footer-heading">Quick Links</h3>
                 <ul class="footer-links">
-                    <li><a href='/'>Home</a></li>
-                    <li><a href="/room/page">Rooms</a></li>
-                    <li><a href="/About">About Us</a></li>
-                    <li><a href="/Contact/us/Page">Contact Us</a></li>
+                    <li><a href='http://localhost/riad-room-booking/public/index.php?page=home'>Home</a></li>
+                    <li><a href="http://localhost/riad-room-booking/public/index.php?page=rooms">Rooms</a></li>
+                    <li><a href="http://localhost/riad-room-booking/public/index.php?page=about">About Us</a></li>
+                    <li><a href="http://localhost/riad-room-booking/public/index.php?page=contact">Contact Us</a></li>
                     
                 </ul>
             </div>

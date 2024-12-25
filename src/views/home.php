@@ -1,291 +1,287 @@
-<?php
-include __DIR__ . '/layout/navbar.php'; 
-?>
+<?php include __DIR__ . '/layout/navbar.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Riad Room Booking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            background-color: #f9f5f0;
+            color: #4a4a4a;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* Hero Section */
+        .riad-info {
+            position: relative;
+            height: 100vh;
+        }
+
+        .riad-image img {
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            width: 90%;
+            max-width: 800px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+        }
+
+        .overlay h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-home {
+            font-size: 1.1rem;
+            padding: 15px 35px;
+            border-radius: 30px;
+            background-color: rgb(226, 182, 51);
+            color: black;
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-weight: 500;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-home:hover {
+            background-color: rgb(200, 150, 40);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        section {
+            padding: 60px 20px;
+            margin: 0;
+            text-align: center;
+        }
+
+        .section-title {
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            color: #2d2d2d;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: rgb(226, 182, 51);
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .featured-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .featured-image {
+            height: 250px;
+        }
+
+        .featured-price {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: rgb(226, 182, 51);
+            margin-bottom: 15px;
+        }
+
+        .featured-price span {
+            font-size: 0.875rem;
+            color: #666;
+            font-weight: normal;
+        }
+
+        @media (max-width: 1024px) {
+            .featured-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .review-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .stars {
+            color: #ffc107;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .review-text {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .review-author {
+            font-weight: 600;
+            color: #2d2d2d;
+        }
+
+        .review-date {
+            color: #888;
+            font-size: 0.9rem;
+        }
+    </style>
 </head>
 <body>
-    <style>
-/* General Styles */
-/* General Reset */
-* {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    /* Body and Font Settings */
-    body {
-        font-family: 'Montserrat', sans-serif;
-        line-height: 1.6;
-        background-color: #f9f5f0;
-        color: #4a4a4a;
-    }
-
-    /* Riad Image & Info Section */
-    .riad-info {
-        position: relative;
-    }
-
-    .riad-image img {
-        width: 100%;
-        height: 100vh;
-        object-fit: cover;
-    }
-    a {
-  color: initial !important;
-  text-decoration: initial !important;
-}
-
-    .overlay {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        text-align: center;
-    }
-
-    .overlay h2 {
-        font-size: 3rem;
-        font-weight: 700;
-    }
-
-    .btn-home {
-        font-size: 1rem;
-        padding: 12px 30px;
-        border-radius: 30px;
-        color: rgb(0, 0, 0);
-        background-color: rgb(226, 182, 51);
-        margin-top: 20px;
-    }
-
-/* Featured Rooms Section */
-.featured-rooms {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.featured-rooms h2 {
-    margin-bottom: 20px;
-    font-size: 28px;
-}
-
-.room-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
-
-.room-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    width: 300px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.room-card img {
-    width: 100%;
-    border-radius: 5px;
-}
-
-.room-card h3 {
-    margin: 10px 0;
-}
-
-.room-card .btn-home {
-    margin-top: 10px;
-}
-
-/* Featured Activities Section */
-.featured-activities {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.activity-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
-
-.activity-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    width: 300px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Featured Reviews Section */
-.featured-reviews {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.review-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
-
-.review-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    width: 300px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.review-card .stars {
-    color: #ffc107;
-}
-
-.discover-more-btn {
-  display: inline-block; /* Makes the link behave like a block element */
-  padding: 10px 20px; /* Add padding to make it look like a button */
-  background-color: #ffc107; /* Button background color */
-  color: white; /* Button text color */
-  text-align: center; /* Center the text */
-  text-decoration: none; /* Remove underline */
-  border-radius: 5px; /* Rounded corners */
-  font-size: 16px; /* Text size */
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-}
-</style>
-
-<div class="container">
-    <!-- Homepage Header Section -->
-    <section class="homepage-header">
-        <?php if ($homepageHeader): ?>
-            <img src="<?php echo htmlspecialchars('/riad-room-booking' . $homepageHeader['IMAGE']); ?>" alt="Header Image">
-            <div class="overlay">
-                <h1><?php echo htmlspecialchars($homepageHeader['OVERLAY_TEXT'] ?? 'Welcome to Riad Room Booking'); ?></h1>
-            </div>
-            <a href="/riad-room-booking/public/index.php?page=rooms">
-                <button>
-                    Explore our rooms now
-                </button>
-            </a>
-        <?php endif; ?>
-    </section>
-
-<!-- Riad Image & Info Section -->
-<section class="riad-info">
     <div class="riad-image">
-        <img src="https://sf1.mariefranceasia.com/wp-content/uploads/sites/7/2018/03/marrakech-nira.jpg" alt="Riad Image">
-        <div class="overlay">
-            <h2>A peaceful escape in the heart of Marrakech</h2>
-            <a href="{{ route('room.listings') }}" class="btn btn-home">Explore Our Rooms</a>
+        <section class="riad-info">
+            <img src="/riad-room-booking/public/images/rooms/marrakech-nira.jpg" alt="Riad Hero Image">
+            <div class="overlay">
+                <h2>A peaceful escape in the heart of Marrakech</h2>
+                <a href="/riad-room-booking/public/index.php?page=rooms" class="btn-home">Explore Our Rooms</a>
+            </div>
+        </section>
 
-        </div>
-    </div>
-</section>
-
-    <!-- Featured Rooms Section -->
-    <section class="featured-rooms">
-        <h2>Featured Rooms</h2>
-        <table class="rooms-table" border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left; border-collapse: collapse;">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Room Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Type</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($featuredRooms as $room): ?>
-                    <tr>
-                        <td><img src="<?php echo '/riad-room-booking' . htmlspecialchars($room['IMAGE'] ?? 'default-room.jpg'); ?>" alt="<?php echo htmlspecialchars($room['name'] ?? 'Room'); ?>" style="width: 100px; height: auto;"></td>
-                        <td><?php echo htmlspecialchars($room['NAME'] ?? 'Room'); ?></td>
-                        <td><?php echo htmlspecialchars($room['DESCRIPTION'] ?? 'No description available.'); ?></td>
-                        <td>$<?php echo htmlspecialchars(number_format($room['PRICE'] ?? 0, 2)); ?></td>
-                        <td><?php echo htmlspecialchars($room['ROOM_TYPE'] ?? 'Unknown'); ?></td>
-                        <td>
-                            <a href="/riad-room-booking/public/index.php?page=room&id=<?php echo $room['ROOM_ID']; ?>">
-                                <button>Book Now</button>
-                            </a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-        <div style="text-align: center; margin-top: 20px;">
-            <a href="/riad-room-booking/public/index.php?page=rooms">
-                <button>Explore More Rooms</button>
-            </a>
-        </div>
-    </section>
-
-    <!-- Featured Activities Section -->
-    <section class="featured-activities">
-        <h2>Featured Activities</h2>
-        <table class="activities-table" border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left; border-collapse: collapse;">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Activity Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($featuredActivities as $activity): ?>
-                    <tr>
-                        <td><img src="<?php echo '/riad-room-booking' . htmlspecialchars($activity['IMAGE'] ?? 'default-activity.jpg'); ?>" alt="<?php echo htmlspecialchars($activity['name'] ?? 'Activity'); ?>" style="width: 100px; height: auto;"></td>
-                        <td><?php echo htmlspecialchars($activity['NAME'] ?? 'Activity'); ?></td>
-                        <td><?php echo htmlspecialchars($activity['DESCRIPTION'] ?? 'No description available.'); ?></td>
-                        <td>$<?php echo htmlspecialchars(number_format($activity['PRICE'] ?? 0, 2)); ?></td>
-                        <td>
-                            <a href="/riad-room-booking/public/index.php?page=activity&id=<?php echo $activity['ACTIVITY_ID']; ?>">
-                                <button>Learn More</button>
-                            </a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-        <div style="text-align: center; margin-top: 20px;">
-            <a href="/riad-room-booking/public/index.php?page=activities">
-                <button>Explore More Activities</button>
-            </a>
-        </div>
-    </section>
-
-    <!-- Featured Reviews Section -->
-    <section class="featured-reviews">
-        <h2>Recent Reviews</h2>
-        <div class="review-cards">
-            <?php foreach ($featuredReviews as $review): ?>
-                <div class="review-card">
-                    <div class="stars">
-                        <?php for ($i = 0; $i < (int)$review['RATING']; $i++): ?>
-                            ⭐
-                        <?php endfor; ?>
+        <section class="featured-rooms">
+            <h2 class="section-title">Featured Rooms</h2>
+            <div class="featured-grid">
+                <?php 
+                $featuredRoomsCount = 0;
+                foreach ($featuredRooms as $room): 
+                    if ($featuredRoomsCount >= 3) break;
+                ?>
+                    <div class="featured-item">
+                        <div class="featured-image">
+                            <img src="<?php echo htmlspecialchars('/riad-room-booking' . ($room['IMAGE'] ?? '/images/default-room.jpg')); ?>" 
+                                 alt="<?php echo htmlspecialchars($room['NAME'] ?? 'Room'); ?>">
+                        </div>
+                        <div class="featured-content">
+                            <h3 class="featured-title"><?php echo htmlspecialchars($room['NAME'] ?? 'Room'); ?></h3>
+                            <p class="featured-description"><?php echo htmlspecialchars($room['DESCRIPTION'] ?? 'No description available.'); ?></p>
+                            <div class="featured-price">
+                                $<?php echo htmlspecialchars(number_format($room['PRICE'] ?? 0, 2)); ?> 
+                                <span>per night</span>
+                            </div>
+                            <div class="featured-footer">
+                                <span><?php echo htmlspecialchars($room['ROOM_TYPE'] ?? 'Standard'); ?></span>
+                                <a href="/riad-room-booking/public/index.php?page=room&id=<?php echo $room['ROOM_ID']; ?>" 
+                                   class="btn-home">Book Now</a>
+                            </div>
+                        </div>
                     </div>
-                    <p><?php echo htmlspecialchars($review['REVIEW_TEXT'] ?? 'No review text available.'); ?></p>
-                    <p><strong>Date:</strong> <?php echo isset($review['REVIEW_DATE']) ? date('F j, Y', strtotime($review['REVIEW_DATE'])) : 'N/A'; ?></p>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </section>
-</div>
+                <?php 
+                    $featuredRoomsCount++;
+                endforeach; 
+                ?>
+        </section>
 
-<?php
-include __DIR__ . '/layout/footer.php'; 
-?>
+        <section class="featured-activities">
+            <h2 class="section-title">Featured Activities</h2>
+            <div class="featured-grid">
+                <?php foreach ($featuredActivities as $activity): ?>
+                    <div class="featured-item">
+                        <div class="featured-image">
+                            <img src="<?php echo htmlspecialchars('/riad-room-booking' . ($activity['IMAGE'] ?? '/images/default-activity.jpg')); ?>" 
+                                 alt="<?php echo htmlspecialchars($activity['NAME'] ?? 'Activity'); ?>">
+                        </div>
+                        <div class="featured-content">
+                            <h3 class="featured-title"><?php echo htmlspecialchars($activity['NAME'] ?? 'Activity'); ?></h3>
+                            <p class="featured-description"><?php echo htmlspecialchars($activity['DESCRIPTION'] ?? 'No description available.'); ?></p>
+                            <div class="featured-price">$<?php echo htmlspecialchars(number_format($activity['PRICE'] ?? 0, 2)); ?></div>
+                            <div class="featured-footer">
+                                <a href="/riad-room-booking/public/index.php?page=activity&id=<?php echo $activity['ACTIVITY_ID']; ?>" 
+                                   class="btn-home">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </section>
+
+        <section class="featured-reviews">
+            <h2 class="section-title">Recent Reviews</h2>
+            <div class="reviews-grid">
+                <?php foreach ($featuredReviews as $review): ?>
+                    <div class="review-card">
+                        <div class="stars">
+                            <?php for ($i = 0; $i < (int)$review['RATING']; $i++): ?>&#9733;<?php endfor; ?>
+                        </div>
+                        <p class="review-text"><?php echo htmlspecialchars($review['REVIEW_TEXT'] ?? 'No review text available.'); ?></p>
+                        <div class="review-author">
+                            <?php echo htmlspecialchars($review['GUEST_NAME'] ?? 'Anonymous'); ?>
+                        </div>
+                        <div class="review-date">
+                            <?php echo isset($review['REVIEW_DATE']) ? date('F j, Y', strtotime($review['REVIEW_DATE'])) : 'N/A'; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </section>
+    </div>
+
+    <?php include __DIR__ . '/layout/footer.php'; ?>
+</body>
+</html>
+
+
+
