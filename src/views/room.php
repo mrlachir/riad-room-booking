@@ -34,7 +34,7 @@ include 'layout/navbar.php';
             <!-- Image Gallery -->
             <div class="space-y-6 max-w-4xl mx-auto">
                 <div class="main-image">
-                    <img id="mainImage" src="<?php echo htmlentities($room['IMAGE']); ?>" alt="<?php echo htmlentities($room['NAME']); ?>" class="w-full h-96 object-cover rounded-lg shadow-lg">
+                    <img id="mainImage" src="<?php echo '/riad-room-booking/'.htmlentities($room['IMAGE']); ?>" alt="<?php echo htmlentities($room['NAME']); ?>" class="w-full h-96 object-cover rounded-lg shadow-lg">
                 </div>
                 <!-- Additional Images Section -->
                 <!-- <div class="additional-images grid grid-cols-3 gap-6">

@@ -152,10 +152,13 @@
             <li><a href="http://localhost/riad-room-booking/public/index.php?page=home">Home</a></li>
             <li><a href="http://localhost/riad-room-booking/public/index.php?page=rooms">Rooms</a></li>
             <li><a href="http://localhost/riad-room-booking/public/index.php?page=activities">Activities</a></li>
+            <li><a href="http://localhost/riad-room-booking/public/index.php?page=about">About Us</a></li>
+
         </ul>
 
         <div class="navbar-auth">
-            <a href="http://localhost/riad-room-booking/public/index.php?page=login" class="btn-navbar btn-login-navbar">Sign up</a>
+            <a href="http://localhost/riad-room-booking/public/index.php?page=login" class="btn-navbar btn-login-navbar">Sign In</a>
+            <a href="http://localhost/riad-room-booking/public/index.php?page=register" class="btn-navbar btn-login-navbar">Sign UP</a>
             <a href="http://localhost/riad-room-booking/public/index.php?page=profile" class="btn-navbar btn-nav">Profile</a>
         </div>
     </nav>

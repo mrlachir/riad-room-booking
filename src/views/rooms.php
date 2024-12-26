@@ -34,7 +34,7 @@ include 'layout/navbar.php';
     <!-- Rooms Grid -->
     <div class="rooms-grid">
         <?php if (!empty($rooms)): ?>
-            <?php foreach ($rooms as $room): ?>
+            <?php foreach ($rooms as $room):?>
                 <div class="room-card">
                     <div class="room-image">
                         <?php if (!empty($room['IMAGE'])): ?>
@@ -50,7 +50,7 @@ include 'layout/navbar.php';
                         <div class="room-info">
                         <?php echo htmlspecialchars($room['NAME'] ?? 'Unnamed Room'); ?>
                             <span class="price">$<?php echo htmlspecialchars($room['PRICE'] ?? '0'); ?>/night</span>
-                            <!-- <span class="capacity"> -->
+                            <span class="capacity"> 
                                 <!-- <?php echo htmlspecialchars($room['CAPACITY']); ?>  -->
                             <!-- Guests</span> -->
                         </div>

@@ -50,6 +50,7 @@
             padding: 20px;
             background-color: rgba(0, 0, 0, 0.4);
             border-radius: 10px;
+            backdrop-filter: blur(5px);
         }
 
         .overlay h2 {
@@ -81,13 +82,13 @@
         }
 
         section {
-            padding: 60px 20px;
+            padding: 80px 20px;
             margin: 0;
             text-align: center;
         }
 
         .section-title {
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             font-size: 2.5rem;
             color: #2d2d2d;
             text-align: center;
@@ -106,43 +107,144 @@
             background-color: rgb(226, 182, 51);
         }
 
+        /* Enhanced Featured Grid */
         .featured-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            max-width: 1200px;
+            gap: 40px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
         .featured-item {
             background: white;
-            border-radius: 10px;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .featured-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
 
         .featured-image {
-            height: 250px;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .featured-item:hover .featured-image img {
+            transform: scale(1.1);
+        }
+
+        .featured-content {
+            padding: 25px;
+        }
+
+        .featured-title {
+            font-size: 1.5rem;
+            color: #2d2d2d;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .featured-description {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            line-height: 1.6;
         }
 
         .featured-price {
-            font-size: 1.5rem;
-            font-weight: 600;
+            font-size: 1.75rem;
+            font-weight: 700;
             color: rgb(226, 182, 51);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 5px;
         }
 
         .featured-price span {
-            font-size: 0.875rem;
-            color: #666;
+            font-size: 1rem;
+            color: #888;
             font-weight: normal;
         }
 
-        @media (max-width: 1024px) {
+        .featured-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background-color: #f8f8f8;
+            border-top: 1px solid #eee;
+        }
+
+        /* Enhanced Reviews Section */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .review-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stars {
+            color: #ffd700;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .review-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .review-author {
+            font-weight: 600;
+            color: #2d2d2d;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .review-date {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 1200px) {
             .featured-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
             }
         }
 
@@ -150,45 +252,18 @@
             .featured-grid {
                 grid-template-columns: 1fr;
             }
-        }
 
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+            .overlay h2 {
+                font-size: 2rem;
+            }
 
-        .review-card {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            text-align: left;
-        }
+            .section-title {
+                font-size: 2rem;
+            }
 
-        .stars {
-            color: #ffc107;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-        }
-
-        .review-text {
-            font-style: italic;
-            margin-bottom: 15px;
-            color: #555;
-        }
-
-        .review-author {
-            font-weight: 600;
-            color: #2d2d2d;
-        }
-
-        .review-date {
-            color: #888;
-            font-size: 0.9rem;
+            .featured-image {
+                height: 250px;
+            }
         }
     </style>
 </head>
@@ -212,7 +287,7 @@
                 ?>
                     <div class="featured-item">
                         <div class="featured-image">
-                            <img src="<?php echo '/riad-room-booking/'.htmlspecialchars('/riad-room-booking' . ($room['IMAGE'] ?? '/images/default-room.jpg')); ?>" 
+                            <img src="<?php echo '/riad-room-booking' . htmlspecialchars(($room['IMAGE'] ?? '/images/default-room.jpg')); ?>" 
                                  alt="<?php echo htmlspecialchars($room['NAME'] ?? 'Room'); ?>">
                         </div>
                         <div class="featured-content">
@@ -233,6 +308,7 @@
                     $featuredRoomsCount++;
                 endforeach; 
                 ?>
+            </div>
         </section>
 
         <section class="featured-activities">
@@ -241,7 +317,7 @@
                 <?php foreach ($featuredActivities as $activity): ?>
                     <div class="featured-item">
                         <div class="featured-image">
-                            <img src="<?php echo '/riad-room-booking/'.htmlspecialchars('/riad-room-booking' . ($activity['IMAGE'] ?? '/images/default-activity.jpg')); ?>" 
+                            <img src="<?php echo '/riad-room-booking/'.htmlspecialchars(($activity['IMAGE'] ?? '/images/default-activity.jpg')); ?>" 
                                  alt="<?php echo htmlspecialchars($activity['NAME'] ?? 'Activity'); ?>">
                         </div>
                         <div class="featured-content">
@@ -282,6 +358,3 @@
     <?php include __DIR__ . '/layout/footer.php'; ?>
 </body>
 </html>
-
-
-
