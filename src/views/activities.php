@@ -159,7 +159,7 @@ include 'layout/navbar.php';
                     <div class="activity-block">
                         <div class="activity-image">
                             <?php if (!empty($activity['IMAGE'])): ?>
-                                <img src="<?php echo htmlspecialchars($activity['IMAGE'], ENT_QUOTES); ?>" 
+                                <img src="<?php echo '/riad-room-booking/'.htmlspecialchars($activity['IMAGE'], ENT_QUOTES); ?>" 
                                      alt="<?php echo htmlspecialchars($activity['NAME'], ENT_QUOTES); ?>">
                             <?php else: ?>
                                 <img src="path/to/default-activity-image.jpg" alt="Default Activity Image">

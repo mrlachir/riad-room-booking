@@ -40,7 +40,7 @@ include 'layout/navbar.php';
                 <!-- <div class="additional-images grid grid-cols-3 gap-6">
                     <?php foreach ($room['additional_images'] as $image): ?>
                         <div class="image-item">
-                            <img src="<?php echo htmlentities($image); ?>" alt="Room Additional Image" class="w-full h-32 object-cover rounded-lg shadow-lg cursor-pointer" onclick="changeMainImage(this)">
+                            <img src="<?php echo '/riad-room-booking/'.htmlentities($image); ?>" alt="Room Additional Image" class="w-full h-32 object-cover rounded-lg shadow-lg cursor-pointer" onclick="changeMainImage(this)">
                         </div>
                     <?php endforeach; ?>
                 </div> -->
@@ -199,7 +199,7 @@ include 'layout/navbar.php';
                 <?php foreach ($recommendedRooms as $recommendedRoom): ?>
                     <a href="index.php?page=room&id=<?php echo htmlentities($recommendedRoom['ROOM_ID']); ?>" class="block">
                         <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                            <img src="<?php echo htmlentities($recommendedRoom['IMAGE']); ?>" class="w-full h-48 object-cover">
+                            <img src="<?php echo '/riad-room-booking/'.htmlentities($recommendedRoom['IMAGE']); ?>" class="w-full h-48 object-cover">
                             <div class="p-4">
                                 <h3 class="font-bold text-gray-800 mb-2"><?php echo htmlentities($recommendedRoom['NAME']); ?></h3>
                                 <p class="text-gray-600">$<?php echo htmlentities($recommendedRoom['PRICE']); ?> Per Night</p>

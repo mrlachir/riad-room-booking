@@ -212,7 +212,7 @@
                 ?>
                     <div class="featured-item">
                         <div class="featured-image">
-                            <img src="<?php echo htmlspecialchars('/riad-room-booking' . ($room['IMAGE'] ?? '/images/default-room.jpg')); ?>" 
+                            <img src="<?php echo '/riad-room-booking/'.htmlspecialchars('/riad-room-booking' . ($room['IMAGE'] ?? '/images/default-room.jpg')); ?>" 
                                  alt="<?php echo htmlspecialchars($room['NAME'] ?? 'Room'); ?>">
                         </div>
                         <div class="featured-content">
@@ -241,7 +241,7 @@
                 <?php foreach ($featuredActivities as $activity): ?>
                     <div class="featured-item">
                         <div class="featured-image">
-                            <img src="<?php echo htmlspecialchars('/riad-room-booking' . ($activity['IMAGE'] ?? '/images/default-activity.jpg')); ?>" 
+                            <img src="<?php echo '/riad-room-booking/'.htmlspecialchars('/riad-room-booking' . ($activity['IMAGE'] ?? '/images/default-activity.jpg')); ?>" 
                                  alt="<?php echo htmlspecialchars($activity['NAME'] ?? 'Activity'); ?>">
                         </div>
                         <div class="featured-content">

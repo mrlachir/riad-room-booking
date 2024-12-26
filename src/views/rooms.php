@@ -38,7 +38,7 @@ include 'layout/navbar.php';
                 <div class="room-card">
                     <div class="room-image">
                         <?php if (!empty($room['IMAGE'])): ?>
-                            <img src="<?php echo htmlspecialchars($room['IMAGE']); ?>" alt="Room Image">
+                            <img src="<?php echo '/riad-room-booking/'.htmlspecialchars($room['IMAGE']); ?>" alt="Room Image">
                         <?php else: ?>
                             <div class="no-image">No Image Available</div>
                         <?php endif; ?>

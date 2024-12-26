@@ -60,7 +60,7 @@ include 'layout/navbar.php';
             <div class="space-y-8">
                 <!-- Main Image -->
                 <div class="main-image shadow-2xl">
-                    <img src="/riad-room-booking/public/images/activities/Snorkeling.jpeg" alt="Riad Hero Image">
+                    <img src="<?php echo '/riad-room-booking/'.htmlentities($activity['IMAGE']); ?>" alt="Riad Hero Image">
                 </div>
                 
                 <div class="max-w-3xl mx-auto text-center space-y-6">
@@ -87,7 +87,7 @@ include 'layout/navbar.php';
                     <a href="index.php?page=activity&id=<?php echo $recommended['ACTIVITY_ID']; ?>" 
                        class="activity-card block bg-white rounded-xl shadow-lg overflow-hidden">
                         <div class="aspect-w-16 aspect-h-9">
-                            <img src="<?php echo htmlentities($recommended['IMAGE']); ?>" 
+                            <img src="<?php echo '/riad-room-booking/'.htmlentities($recommended['IMAGE']); ?>" 
                                  class="w-full h-56 object-cover">
                         </div>
                         <div class="p-6">
