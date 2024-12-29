@@ -2,9 +2,9 @@
 // Database configuration
 $host = "localhost"; // Oracle database host
 $port = "1521";      // Oracle database port
-$sid = "zakariae7";       // Oracle SID
+$sid = "orcl";       // Oracle SID
 $username = "system";  // Oracle username
-$password = "Lachir77"; // Oracle password
+$password = "lachir"; // Oracle password
 
 // Connection string (DSN)
 $dsn = "(DESCRIPTION=

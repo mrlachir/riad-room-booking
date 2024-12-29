@@ -32,22 +32,22 @@
                 <div class="social-menu">
                     <ul>
                         <li>
-                            <a href="https://github.com/yourusername" target="_blank">
+                            <a href="https://github.com/mrlachir" target="_blank">
                                 <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Logo">
                             </a>
                         </li>
                         <li>
-                            <a href="https://instagram.com/yourusername" target="_blank">
+                            <a href="https://instagram.com/mrlachir" target="_blank">
                                 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram Logo">
                             </a>
                         </li>
                         <li>
-                            <a href="https://facebook.com/yourusername" target="_blank">
+                            <a href="https://facebook.com/mrlachir" target="_blank">
                                 <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Facebook_icon.svg" alt="Facebook Logo">
                             </a>
                         </li>
                         <li>
-                            <a href="https://twitter.com/yourusername" target="_blank">
+                            <a href="https://twitter.com/mrlachir" target="_blank">
                                 <img src="https://logowik.com/content/uploads/images/twitter-x5265.logowik.com.webp" alt="Twitter Logo">
                             </a>
                         </li>

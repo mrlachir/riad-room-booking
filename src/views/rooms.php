@@ -34,7 +34,7 @@ include 'layout/navbar.php';
     <!-- Rooms Grid -->
     <div class="rooms-grid">
         <?php if (!empty($rooms)): ?>
-            <?php foreach ($rooms as $room):?>
+            <?php array_pop($rooms); foreach ($rooms as $room):?>
                 <div class="room-card">
                     <div class="room-image">
                         <?php if (!empty($room['IMAGE'])): ?>

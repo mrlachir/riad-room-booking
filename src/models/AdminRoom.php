@@ -8,7 +8,7 @@ class AdminRoom {
     }
 
     public function getAllRooms() {
-        $query = "SELECT * FROM rooms ORDER BY name";
+        $query = "SELECT * FROM rooms ORDER BY availability";
         $stmt = oci_parse($this->conn, $query);
         oci_execute($stmt);
         $rooms = [];

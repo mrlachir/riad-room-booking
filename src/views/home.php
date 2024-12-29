@@ -269,13 +269,31 @@
 </head>
 <body>
     <div class="riad-image">
-        <section class="riad-info">
+        <!-- <section class="riad-info">
             <img src="/riad-room-booking/public/images/rooms/marrakech-nira.jpg" alt="Riad Hero Image">
             <div class="overlay">
                 <h2>A peaceful escape in the heart of Marrakech</h2>
                 <a href="/riad-room-booking/public/index.php?page=rooms" class="btn-home">Explore Our Rooms</a>
             </div>
-        </section>
+        </section> -->
+        <!-- Homepage Header Section -->
+    <section class="homepage-header">
+        <?php if ($homepageHeader): ?>
+            <img src="<?php echo htmlspecialchars('/riad-room-booking' . $homepageHeader['IMAGE']); ?>" alt="Header Image">
+            <div class="overlay">
+            <h1><?php echo htmlspecialchars($homepageHeader['OVERLAY_TEXT'] ?? 'Welcome to Riad Room Booking'); ?></h1>
+            <a href="/riad-room-booking/public/index.php?page=rooms" class="btn-home">Explore Our Rooms</a>
+            </div>
+            <!-- <a href="/riad-room-booking/public/index.php?page=rooms">
+                <button>
+                    Explore our rooms now
+                </button>
+            </a> -->
+        <?php endif; ?>
+    </section>
+
+
+
 
         <section class="featured-rooms">
             <h2 class="section-title">Featured Rooms</h2>
