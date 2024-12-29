@@ -78,8 +78,6 @@ class UserController
     include __DIR__ . '/../views/login.php';  // Include the login view, pass error if set
 }
 
-
-
     public function logout()
     {
         session_start();
