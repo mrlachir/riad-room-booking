@@ -2,34 +2,39 @@
 
 require_once __DIR__ . '/../models/AdminRoom.php';
 
-class AdminRoomController {
+class AdminRoomController
+{
     private $roomModel;
     private $uploadDir;
 
-    public function __construct($conn) {
+    public function __construct($conn)
+    {
         $this->roomModel = new AdminRoom($conn);
         // Define the absolute path for image uploads
         $this->uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/riad-room-booking/public/images/rooms/';
-        
+
         // Create directory if it doesn't exist
         if (!file_exists($this->uploadDir)) {
             mkdir($this->uploadDir, 0777, true);
         }
     }
 
-    public function index() {
+    public function index()
+    {
         $rooms = $this->roomModel->getAllRooms();
         include __DIR__ . '/../views/dashboard/rooms/rooms.php';
     }
 
-    public function create() {
+    public function create()
+    {
         include __DIR__ . '/../views/dashboard/rooms/addRoom.php';
     }
 
-    public function store() {
+    public function store()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $imageUrl = $this->handleImageUpload();
-            
+
             $roomData = [
                 'name' => $_POST['name'],
                 'description' => $_POST['description'],
@@ -48,7 +53,8 @@ class AdminRoomController {
         }
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         $room = $this->roomModel->getRoomById($id);
         if ($room) {
             include __DIR__ . '/../views/dashboard/rooms/editRoom.php';
@@ -58,11 +64,12 @@ class AdminRoomController {
         }
     }
 
-    public function update($id) {
+    public function update($id)
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Get the current room data to check if we need to update the image
             $currentRoom = $this->roomModel->getRoomById($id);
-            
+
             // Handle image upload
             $imageUrl = $this->handleImageUpload();
             if ($imageUrl === null && isset($currentRoom['IMAGE'])) {
@@ -125,44 +132,46 @@ class AdminRoomController {
 
     //     // Return the relative path for database storage
     //     return '/public/images/rooms/' . $fileName;
-    private function handleImageUpload() {
+    private function handleImageUpload()
+    {
         if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
             return null;
         }
-    
+
         // Validate file type
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
         $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
         $uploadedFileType = finfo_file($fileInfo, $_FILES['image']['tmp_name']);
         finfo_close($fileInfo);
-    
+
         if (!in_array($uploadedFileType, $allowedTypes)) {
             throw new Exception('Invalid file type. Only JPG, PNG and GIF are allowed.');
         }
-    
+
         // Generate unique filename
         $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
         $fileName = uniqid() . '_' . time() . '.' . $extension;
-        
+
         // Define paths
         $relativePath = '/public/images/rooms/' . $fileName;
         $uploadPath = $_SERVER['DOCUMENT_ROOT'] . '/riad-room-booking' . $relativePath;
-    
+
         // Ensure directory exists
         $uploadDir = dirname($uploadPath);
         if (!file_exists($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
-    
+
         // Move and verify upload
         if (!move_uploaded_file($_FILES['image']['tmp_name'], $uploadPath)) {
             throw new Exception('Failed to move uploaded file.');
         }
-    
+
         // Return the relative path for database storage
         return $relativePath;
     }
-    private function deleteOldImage($imagePath) {
+    private function deleteOldImage($imagePath)
+    {
         if (!empty($imagePath)) {
             $fullPath = $_SERVER['DOCUMENT_ROOT'] . '/riad-room-booking' . $imagePath;
             if (file_exists($fullPath)) {
@@ -171,10 +180,11 @@ class AdminRoomController {
         }
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         // Get room data to delete associated image
         $room = $this->roomModel->getRoomById($id);
-        
+
         if ($this->roomModel->deleteRoom($id)) {
             // Delete associated image file
             if ($room && isset($room['IMAGE'])) {

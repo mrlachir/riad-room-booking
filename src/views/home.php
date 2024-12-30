@@ -1,6 +1,7 @@
 <?php include __DIR__ . '/layout/navbar.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -267,6 +268,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="riad-image">
         <!-- <section class="riad-info">
@@ -277,20 +279,20 @@
             </div>
         </section> -->
         <!-- Homepage Header Section -->
-    <section class="homepage-header">
-        <?php if ($homepageHeader): ?>
-            <img src="<?php echo htmlspecialchars('/riad-room-booking' . $homepageHeader['IMAGE']); ?>" alt="Header Image">
-            <div class="overlay">
-            <h1><?php echo htmlspecialchars($homepageHeader['OVERLAY_TEXT'] ?? 'Welcome to Riad Room Booking'); ?></h1>
-            <a href="/riad-room-booking/public/index.php?page=rooms" class="btn-home">Explore Our Rooms</a>
-            </div>
-            <!-- <a href="/riad-room-booking/public/index.php?page=rooms">
+        <section class="homepage-header">
+            <?php if ($homepageHeader): ?>
+                <img src="<?php echo htmlspecialchars('/riad-room-booking' . $homepageHeader['IMAGE']); ?>" alt="Header Image">
+                <div class="overlay">
+                    <h1><?php echo htmlspecialchars($homepageHeader['OVERLAY_TEXT'] ?? 'Welcome to Riad Room Booking'); ?></h1>
+                    <a href="/riad-room-booking/public/index.php?page=rooms" class="btn-home">Explore Our Rooms</a>
+                </div>
+                <!-- <a href="/riad-room-booking/public/index.php?page=rooms">
                 <button>
                     Explore our rooms now
                 </button>
             </a> -->
-        <?php endif; ?>
-    </section>
+            <?php endif; ?>
+        </section>
 
 
 
@@ -298,33 +300,33 @@
         <section class="featured-rooms">
             <h2 class="section-title">Featured Rooms</h2>
             <div class="featured-grid">
-                <?php 
+                <?php
                 $featuredRoomsCount = 0;
-                foreach ($featuredRooms as $room): 
+                foreach ($featuredRooms as $room):
                     if ($featuredRoomsCount >= 3) break;
                 ?>
                     <div class="featured-item">
                         <div class="featured-image">
-                            <img src="<?php echo '/riad-room-booking' . htmlspecialchars(($room['IMAGE'] ?? '/images/default-room.jpg')); ?>" 
-                                 alt="<?php echo htmlspecialchars($room['NAME'] ?? 'Room'); ?>">
+                            <img src="<?php echo '/riad-room-booking' . htmlspecialchars(($room['IMAGE'] ?? '/images/default-room.jpg')); ?>"
+                                alt="<?php echo htmlspecialchars($room['NAME'] ?? 'Room'); ?>">
                         </div>
                         <div class="featured-content">
                             <h3 class="featured-title"><?php echo htmlspecialchars($room['NAME'] ?? 'Room'); ?></h3>
                             <p class="featured-description"><?php echo htmlspecialchars($room['DESCRIPTION'] ?? 'No description available.'); ?></p>
                             <div class="featured-price">
-                                $<?php echo htmlspecialchars(number_format($room['PRICE'] ?? 0, 2)); ?> 
+                                $<?php echo htmlspecialchars(number_format($room['PRICE'] ?? 0, 2)); ?>
                                 <span>per night</span>
                             </div>
                             <div class="featured-footer">
                                 <span><?php echo htmlspecialchars($room['ROOM_TYPE'] ?? 'Standard'); ?></span>
-                                <a href="/riad-room-booking/public/index.php?page=room&id=<?php echo $room['ROOM_ID']; ?>" 
-                                   class="btn-home">Book Now</a>
+                                <a href="/riad-room-booking/public/index.php?page=room&id=<?php echo $room['ROOM_ID']; ?>"
+                                    class="btn-home">Book Now</a>
                             </div>
                         </div>
                     </div>
-                <?php 
+                <?php
                     $featuredRoomsCount++;
-                endforeach; 
+                endforeach;
                 ?>
             </div>
         </section>
@@ -335,16 +337,16 @@
                 <?php foreach ($featuredActivities as $activity): ?>
                     <div class="featured-item">
                         <div class="featured-image">
-                            <img src="<?php echo '/riad-room-booking/'.htmlspecialchars(($activity['IMAGE'] ?? '/images/default-activity.jpg')); ?>" 
-                                 alt="<?php echo htmlspecialchars($activity['NAME'] ?? 'Activity'); ?>">
+                            <img src="<?php echo '/riad-room-booking/' . htmlspecialchars(($activity['IMAGE'] ?? '/images/default-activity.jpg')); ?>"
+                                alt="<?php echo htmlspecialchars($activity['NAME'] ?? 'Activity'); ?>">
                         </div>
                         <div class="featured-content">
                             <h3 class="featured-title"><?php echo htmlspecialchars($activity['NAME'] ?? 'Activity'); ?></h3>
                             <p class="featured-description"><?php echo htmlspecialchars($activity['DESCRIPTION'] ?? 'No description available.'); ?></p>
                             <div class="featured-price">$<?php echo htmlspecialchars(number_format($activity['PRICE'] ?? 0, 2)); ?></div>
                             <div class="featured-footer">
-                                <a href="/riad-room-booking/public/index.php?page=activity&id=<?php echo $activity['ACTIVITY_ID']; ?>" 
-                                   class="btn-home">Learn More</a>
+                                <a href="/riad-room-booking/public/index.php?page=activity&id=<?php echo $activity['ACTIVITY_ID']; ?>"
+                                    class="btn-home">Learn More</a>
                             </div>
                         </div>
                     </div>
@@ -375,4 +377,5 @@
 
     <?php include __DIR__ . '/layout/footer.php'; ?>
 </body>
+
 </html>

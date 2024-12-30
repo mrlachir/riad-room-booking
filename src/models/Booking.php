@@ -43,23 +43,23 @@ class Booking
     public static function hasUserBookedRoom($userId, $roomId)
     {
         global $conn;
-    
+
         $query = "SELECT COUNT(*) AS booking_count 
                   FROM bookings 
                   WHERE user_id = :userId 
                   AND room_id = :roomId";
-    
+
         $statement = oci_parse($conn, $query);
         oci_bind_by_name($statement, ":userId", $userId);
         oci_bind_by_name($statement, ":roomId", $roomId);
         oci_execute($statement);
-    
+
         $result = oci_fetch_assoc($statement);
         oci_free_statement($statement);
-    
+
         return $result['BOOKING_COUNT'] > 0;
     }
-    
+
     // Create a new booking
     public static function createBooking($userId, $roomId, $checkIn, $checkOut, $totalPrice)
     {

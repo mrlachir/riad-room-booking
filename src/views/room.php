@@ -1,5 +1,5 @@
-<?php 
-include 'layout/navbar.php'; 
+<?php
+include 'layout/navbar.php';
 ?>
 
 <!DOCTYPE html>
@@ -34,13 +34,13 @@ include 'layout/navbar.php';
             <!-- Image Gallery -->
             <div class="space-y-6 max-w-4xl mx-auto">
                 <div class="main-image">
-                    <img id="mainImage" src="<?php echo '/riad-room-booking/'.htmlentities($room['IMAGE']); ?>" alt="<?php echo htmlentities($room['NAME']); ?>" class="w-full h-96 object-cover rounded-lg shadow-lg">
+                    <img id="mainImage" src="<?php echo '/riad-room-booking/' . htmlentities($room['IMAGE']); ?>" alt="<?php echo htmlentities($room['NAME']); ?>" class="w-full h-96 object-cover rounded-lg shadow-lg">
                 </div>
                 <!-- Additional Images Section -->
                 <!-- <div class="additional-images grid grid-cols-3 gap-6">
                     <?php foreach ($room['additional_images'] as $image): ?>
                         <div class="image-item">
-                            <img src="<?php echo '/riad-room-booking/'.htmlentities($image); ?>" alt="Room Additional Image" class="w-full h-32 object-cover rounded-lg shadow-lg cursor-pointer" onclick="changeMainImage(this)">
+                            <img src="<?php echo '/riad-room-booking/' . htmlentities($image); ?>" alt="Room Additional Image" class="w-full h-32 object-cover rounded-lg shadow-lg cursor-pointer" onclick="changeMainImage(this)">
                         </div>
                     <?php endforeach; ?>
                 </div> -->
@@ -154,42 +154,42 @@ include 'layout/navbar.php';
                 </form>
             </div> -->
             <!-- Write a Review Form -->
-<?php if (isset($_SESSION['user'])): ?>
-    <?php if ($hasBooked): ?>
-        <div class="mt-6">
-            <form action="index.php?page=addReview" method="POST">
-                <input type="hidden" name="room_id" value="<?php echo htmlentities($room['ROOM_ID']); ?>">
-                <div class="grid grid-cols-1 gap-4">
-                    <div>
-                        <label class="block text-gray-700 mb-2">Rating</label>
-                        <select name="rating" class="w-full px-3 py-2 border rounded-md">
-                            <option value="5">5 - Excellent</option>
-                            <option value="4">4 - Good</option>
-                            <option value="3">3 - Average</option>
-                            <option value="2">2 - Poor</option>
-                            <option value="1">1 - Terrible</option>
-                        </select>
+            <?php if (isset($_SESSION['user'])): ?>
+                <?php if ($hasBooked): ?>
+                    <div class="mt-6">
+                        <form action="index.php?page=addReview" method="POST">
+                            <input type="hidden" name="room_id" value="<?php echo htmlentities($room['ROOM_ID']); ?>">
+                            <div class="grid grid-cols-1 gap-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Rating</label>
+                                    <select name="rating" class="w-full px-3 py-2 border rounded-md">
+                                        <option value="5">5 - Excellent</option>
+                                        <option value="4">4 - Good</option>
+                                        <option value="3">3 - Average</option>
+                                        <option value="2">2 - Poor</option>
+                                        <option value="1">1 - Terrible</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Your Review</label>
+                                    <textarea name="review_text" rows="4" class="w-full px-3 py-2 border rounded-md" placeholder="Write your review here..." required></textarea>
+                                </div>
+                                <button type="submit" class="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 transition duration-300">
+                                    Submit Review
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    <div>
-                        <label class="block text-gray-700 mb-2">Your Review</label>
-                        <textarea name="review_text" rows="4" class="w-full px-3 py-2 border rounded-md" placeholder="Write your review here..." required></textarea>
+                <?php else: ?>
+                    <div class="mt-6 text-gray-600">
+                        <p>You need to book and stay in this room before you can leave a review.</p>
                     </div>
-                    <button type="submit" class="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 transition duration-300">
-                        Submit Review
-                    </button>
+                <?php endif; ?>
+            <?php else: ?>
+                <div class="mt-6 text-gray-600">
+                    <p>Please <a href="index.php?page=login" class="text-blue-500 hover:underline">login</a> to leave a review.</p>
                 </div>
-            </form>
-        </div>
-    <?php else: ?>
-        <div class="mt-6 text-gray-600">
-            <p>You need to book and stay in this room before you can leave a review.</p>
-        </div>
-    <?php endif; ?>
-<?php else: ?>
-    <div class="mt-6 text-gray-600">
-        <p>Please <a href="index.php?page=login" class="text-blue-500 hover:underline">login</a> to leave a review.</p>
-    </div>
-<?php endif; ?>
+            <?php endif; ?>
         </div>
 
         <!-- Recommended Rooms -->
@@ -199,7 +199,7 @@ include 'layout/navbar.php';
                 <?php foreach ($recommendedRooms as $recommendedRoom): ?>
                     <a href="index.php?page=room&id=<?php echo htmlentities($recommendedRoom['ROOM_ID']); ?>" class="block">
                         <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                            <img src="<?php echo '/riad-room-booking/'.htmlentities($recommendedRoom['IMAGE']); ?>" class="w-full h-48 object-cover">
+                            <img src="<?php echo '/riad-room-booking/' . htmlentities($recommendedRoom['IMAGE']); ?>" class="w-full h-48 object-cover">
                             <div class="p-4">
                                 <h3 class="font-bold text-gray-800 mb-2"><?php echo htmlentities($recommendedRoom['NAME']); ?></h3>
                                 <p class="text-gray-600">$<?php echo htmlentities($recommendedRoom['PRICE']); ?> Per Night</p>
@@ -216,5 +216,5 @@ include 'layout/navbar.php';
 </html>
 
 <?php
-include __DIR__ . '/layout/footer.php'; 
+include __DIR__ . '/layout/footer.php';
 ?>

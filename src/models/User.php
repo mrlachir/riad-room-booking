@@ -26,30 +26,30 @@ class User
     }
 
     public static function login($email, $password)
-{
-    global $conn;
+    {
+        global $conn;
 
-    $query = "SELECT * FROM users WHERE email = :email";
-    $statement = oci_parse($conn, $query);
-    oci_bind_by_name($statement, ":email", $email);
-    oci_execute($statement);
+        $query = "SELECT * FROM users WHERE email = :email";
+        $statement = oci_parse($conn, $query);
+        oci_bind_by_name($statement, ":email", $email);
+        oci_execute($statement);
 
-    $user = oci_fetch_assoc($statement);
-    oci_free_statement($statement);
+        $user = oci_fetch_assoc($statement);
+        oci_free_statement($statement);
 
-    if (!$user) {
-        return null; // User not found
+        if (!$user) {
+            return null; // User not found
+        }
+
+        // Compare plain text passwords directly
+        if ($password === $user['PASSWORD']) {
+            return $user; // Successful login
+        }
+
+        return null; // Password does not match
     }
 
-    // Compare plain text passwords directly
-    if ($password === $user['PASSWORD']) {
-        return $user; // Successful login
-    }
 
-    return null; // Password does not match
-}
-
-    
 
 
     public static function find($id)

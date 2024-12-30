@@ -8,6 +8,7 @@ class Activity
         global $conn;
 
         $query = "SELECT * FROM activities";
+
         $statement = oci_parse($conn, $query);
         if (!$statement) {
             $e = oci_error($conn);
@@ -60,5 +61,4 @@ class Activity
         oci_free_statement($statement);
         return $recommended;
     }
-
 }

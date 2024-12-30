@@ -1,8 +1,9 @@
-<?php 
-include 'layout/navbar.php'; 
+<?php
+include 'layout/navbar.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,11 +13,13 @@ include 'layout/navbar.php';
         body {
             font-family: 'Montserrat', sans-serif;
         }
+
         .section-title {
             font-family: 'Cormorant Garamond', serif;
         }
     </style>
 </head>
+
 <body class="bg-gray-50">
     <div class="container mx-auto px-4 py-8 max-w-6xl">
 
@@ -105,9 +108,9 @@ include 'layout/navbar.php';
         <div class="bg-white rounded-lg shadow-md p-6 mb-12">
             <h2 class="section-title text-2xl font-bold text-gray-800 mb-4">Change Password</h2>
             <a href="index.php?page=changePassword">
-            <button type="submit" class="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 transition duration-300">
-                        change Password
-                    </button>
+                <button type="submit" class="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 transition duration-300">
+                    change Password
+                </button>
             </a>
         </div>
 
@@ -119,7 +122,8 @@ include 'layout/navbar.php';
         </div>
     </div>
 </body>
+
 </html>
 <?php
-include __DIR__ . '/layout/footer.php'; 
+include __DIR__ . '/layout/footer.php';
 ?>

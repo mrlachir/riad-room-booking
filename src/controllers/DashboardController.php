@@ -2,14 +2,17 @@
 
 require_once __DIR__ . '/../../src/models/Dashboard.php';
 
-class DashboardController {
+class DashboardController
+{
     private $dashboard;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->dashboard = new Dashboard();
     }
 
-    public function overview() {
+    public function overview()
+    {
         $statistics = $this->dashboard->getStatistics();
         $recentReviews = $this->dashboard->getRecentReviews();
         $recentBookings = $this->dashboard->getRecentBookings();

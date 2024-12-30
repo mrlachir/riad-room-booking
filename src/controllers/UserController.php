@@ -51,32 +51,32 @@ class UserController
     }
 
     public function login()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        try {
-            $email = strtolower(trim($_POST['email']));  // Normalize email
-            $password = $_POST['password'];
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            try {
+                $email = strtolower(trim($_POST['email']));  // Normalize email
+                $password = $_POST['password'];
 
-            if (empty($email) || empty($password)) {
-                throw new Exception("Email and password are required.");
+                if (empty($email) || empty($password)) {
+                    throw new Exception("Email and password are required.");
+                }
+
+                $user = User::login($email, $password);
+                if (!$user) {
+                    throw new Exception("Invalid email or password.");
+                }
+
+                // Assuming session_start() is already called in index.php
+                $_SESSION['user'] = $user;  // Store user data in session
+                header("Location: index.php?page=rooms");  // Redirect to a secure page
+                exit;
+            } catch (Exception $e) {
+                $error = $e->getMessage();  // This will be passed to the login view
             }
-
-            $user = User::login($email, $password);
-            if (!$user) {
-                throw new Exception("Invalid email or password.");
-            }
-
-            // Assuming session_start() is already called in index.php
-            $_SESSION['user'] = $user;  // Store user data in session
-            header("Location: index.php?page=rooms");  // Redirect to a secure page
-            exit;
-        } catch (Exception $e) {
-            $error = $e->getMessage();  // This will be passed to the login view
         }
-    }
 
-    include __DIR__ . '/../views/login.php';  // Include the login view, pass error if set
-}
+        include __DIR__ . '/../views/login.php';  // Include the login view, pass error if set
+    }
 
     public function logout()
     {
@@ -151,49 +151,48 @@ class UserController
     }
 
     public function changePassword()
-{
-    // session_start();
-    if (!isset($_SESSION['user'])) {
-        header("Location: index.php?page=login");
-        exit;
-    }
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        try {
-            $userId = $_SESSION['user']['USER_ID'];
-            $currentPassword = $_POST['current_password'] ?? '';
-            $newPassword = $_POST['new_password'] ?? '';
-            $confirmPassword = $_POST['confirm_password'] ?? '';
-
-            // Validate form fields
-            if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
-                throw new Exception("All fields are required.");
-            }
-
-            if ($newPassword !== $confirmPassword) {
-                throw new Exception("New password and confirmation do not match.");
-            }
-
-            if (strlen($newPassword) < 8) {
-                throw new Exception("New password must be at least 8 characters long.");
-            }
-
-            // Assuming User::changePassword performs password change logic
-            User::changePassword($userId, $currentPassword, $newPassword);
-
-            header("Location: index.php?page=profile");
+    {
+        // session_start();
+        if (!isset($_SESSION['user'])) {
+            header("Location: index.php?page=login");
             exit;
-        } catch (Exception $e) {
-            // Capture the error message and pass it to the view
-            $errorMessage = $e->getMessage();
-            include __DIR__ . '/../views/profile_pass.php';
-            
-            return;
         }
-    } else {
-        // Initial load of the change password page
-        include __DIR__ . '/../views/profile_pass.php';
-    }
-}
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            try {
+                $userId = $_SESSION['user']['USER_ID'];
+                $currentPassword = $_POST['current_password'] ?? '';
+                $newPassword = $_POST['new_password'] ?? '';
+                $confirmPassword = $_POST['confirm_password'] ?? '';
+
+                // Validate form fields
+                if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
+                    throw new Exception("All fields are required.");
+                }
+
+                if ($newPassword !== $confirmPassword) {
+                    throw new Exception("New password and confirmation do not match.");
+                }
+
+                if (strlen($newPassword) < 8) {
+                    throw new Exception("New password must be at least 8 characters long.");
+                }
+
+                // Assuming User::changePassword performs password change logic
+                User::changePassword($userId, $currentPassword, $newPassword);
+
+                header("Location: index.php?page=profile");
+                exit;
+            } catch (Exception $e) {
+                // Capture the error message and pass it to the view
+                $errorMessage = $e->getMessage();
+                include __DIR__ . '/../views/profile_pass.php';
+
+                return;
+            }
+        } else {
+            // Initial load of the change password page
+            include __DIR__ . '/../views/profile_pass.php';
+        }
+    }
 }

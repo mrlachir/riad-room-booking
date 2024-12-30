@@ -1,9 +1,10 @@
-<?php 
-include 'layout/navbar.php'; 
+<?php
+include 'layout/navbar.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +28,7 @@ include 'layout/navbar.php';
         /* Header Styles */
         .page-header {
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                        url('path/to/your/header-image.jpg');
+                url('path/to/your/header-image.jpg');
             background-size: cover;
             background-position: center;
             padding: 100px 0;
@@ -147,6 +148,7 @@ include 'layout/navbar.php';
         }
     </style>
 </head>
+
 <body>
     <div class="page-header">
         <h1>Discover Our Authentic Experiences</h1>
@@ -159,8 +161,8 @@ include 'layout/navbar.php';
                     <div class="activity-block">
                         <div class="activity-image">
                             <?php if (!empty($activity['IMAGE'])): ?>
-                                <img src="<?php echo '/riad-room-booking/'.htmlspecialchars($activity['IMAGE'], ENT_QUOTES); ?>" 
-                                     alt="<?php echo htmlspecialchars($activity['NAME'], ENT_QUOTES); ?>">
+                                <img src="<?php echo '/riad-room-booking/' . htmlspecialchars($activity['IMAGE'], ENT_QUOTES); ?>"
+                                    alt="<?php echo htmlspecialchars($activity['NAME'], ENT_QUOTES); ?>">
                             <?php else: ?>
                                 <img src="path/to/default-activity-image.jpg" alt="Default Activity Image">
                             <?php endif; ?>
@@ -169,8 +171,8 @@ include 'layout/navbar.php';
                             <h3><?php echo htmlspecialchars($activity['NAME'], ENT_QUOTES); ?></h3>
                             <p><?php echo htmlspecialchars($activity['DESCRIPTION'], ENT_QUOTES); ?></p>
                             <p class="price">From $<?php echo number_format(floatval($activity['PRICE']), 2); ?></p>
-                            <a href="index.php?page=activity&id=<?php echo htmlspecialchars($activity['ACTIVITY_ID'], ENT_QUOTES); ?>" 
-                               class="learn-more-btn">Learn More</a>
+                            <a href="index.php?page=activity&id=<?php echo htmlspecialchars($activity['ACTIVITY_ID'], ENT_QUOTES); ?>"
+                                class="learn-more-btn">Learn More</a>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -184,4 +186,5 @@ include 'layout/navbar.php';
 
     <?php include __DIR__ . '/layout/footer.php'; ?>
 </body>
+
 </html>

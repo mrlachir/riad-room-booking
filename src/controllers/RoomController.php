@@ -44,34 +44,34 @@ class RoomController
     // Show a single room with details, reviews, and recommendations
 
     public function show($id)
-{
-    try {
-        // Start session if not already started
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
+    {
+        try {
+            // Start session if not already started
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+
+            // Fetch room details
+            $room = Room::find($id);
+
+            // Fetch reviews for the room
+            $reviews = Review::getByRoomId($id);
+
+            // Fetch recommended rooms
+            $recommendedRooms = Room::getRecommended($id);
+
+            // Check if user has booked this room
+            $hasBooked = false;
+            if (isset($_SESSION['user'])) {
+                $hasBooked = Booking::hasUserBookedRoom($_SESSION['user']['USER_ID'], $id);
+            }
+
+            // Load the room details view
+            include __DIR__ . '/../views/room.php';
+        } catch (Exception $e) {
+            echo "<h1>Error: " . $e->getMessage() . "</h1>";
         }
-
-        // Fetch room details
-        $room = Room::find($id);
-
-        // Fetch reviews for the room
-        $reviews = Review::getByRoomId($id);
-
-        // Fetch recommended rooms
-        $recommendedRooms = Room::getRecommended($id);
-
-        // Check if user has booked this room
-        $hasBooked = false;
-        if (isset($_SESSION['user'])) {
-            $hasBooked = Booking::hasUserBookedRoom($_SESSION['user']['USER_ID'], $id);
-        }
-
-        // Load the room details view
-        include __DIR__ . '/../views/room.php';
-    } catch (Exception $e) {
-        echo "<h1>Error: " . $e->getMessage() . "</h1>";
     }
-}
 
 
     // Handle room booking

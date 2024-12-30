@@ -1,9 +1,10 @@
-<?php 
-include 'layout/navbar.php'; 
+<?php
+include 'layout/navbar.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +18,8 @@ include 'layout/navbar.php';
             box-sizing: border-box;
         }
 
-        html, body {
+        html,
+        body {
             height: 100%;
             width: 100%;
             font-family: 'Roboto', sans-serif;
@@ -87,7 +89,7 @@ include 'layout/navbar.php';
             max-width: 100%;
             height: auto;
             border-radius: 8px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
 
         .riad-story .text {
@@ -105,12 +107,13 @@ include 'layout/navbar.php';
             width: 100%;
         }
 
-        .mission, .vision {
+        .mission,
+        .vision {
             flex: 1;
             background-color: #f8f9fa;
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
 
         /* Team Section */
@@ -126,7 +129,7 @@ include 'layout/navbar.php';
             background-color: #f8f9fa;
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
         }
 
@@ -156,8 +159,8 @@ include 'layout/navbar.php';
                 flex-direction: column;
             }
 
-            .mission, 
-            .vision, 
+            .mission,
+            .vision,
             .team-member {
                 width: 100%;
                 margin-bottom: 20px;
@@ -174,18 +177,26 @@ include 'layout/navbar.php';
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
                 transform: translateY(0) translateX(-50%);
             }
+
             40% {
                 transform: translateY(-20px) translateX(-50%);
             }
+
             60% {
                 transform: translateY(-10px) translateX(-50%);
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Riad Story Section -->
     <section class="section riad-story">
@@ -259,7 +270,8 @@ include 'layout/navbar.php';
         </div>
     </section>
 </body>
+
 </html>
 <?php
-include __DIR__ . '/layout/footer.php'; 
+include __DIR__ . '/layout/footer.php';
 ?>

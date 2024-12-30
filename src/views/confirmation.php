@@ -1,16 +1,17 @@
-
-<?php 
-include 'layout/navbar.php'; 
+<?php
+include 'layout/navbar.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking Confirmation</title>
     <link rel="stylesheet" href="public/css/style.css">
 </head>
+
 <body>
     <div class="container">
         <h1>Your Booking is Confirmed!</h1>
@@ -46,7 +47,8 @@ include 'layout/navbar.php';
         <a href="index.php">Go Back Home</a>
     </div>
 </body>
+
 </html>
 <?php
-include __DIR__ . '/layout/footer.php'; 
+include __DIR__ . '/layout/footer.php';
 ?>

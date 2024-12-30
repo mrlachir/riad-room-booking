@@ -1,13 +1,16 @@
 <?php
 // src/models/AdminUser.php
-class AdminUser {
+class AdminUser
+{
     private $conn;
 
-    public function __construct($conn) {
+    public function __construct($conn)
+    {
         $this->conn = $conn;
     }
 
-    public function getAllUsers() {
+    public function getAllUsers()
+    {
         $query = "SELECT * FROM users ORDER BY name";
         $stmt = oci_parse($this->conn, $query);
         oci_execute($stmt);
@@ -19,7 +22,8 @@ class AdminUser {
         return $users;
     }
 
-    public function getUserById($id) {
+    public function getUserById($id)
+    {
         $query = "SELECT * FROM users WHERE user_id = :id";
         $stmt = oci_parse($this->conn, $query);
         oci_bind_by_name($stmt, ":id", $id);
@@ -29,7 +33,8 @@ class AdminUser {
         return $user;
     }
 
-    public function updateUserRole($id, $role) {
+    public function updateUserRole($id, $role)
+    {
         $query = "UPDATE users SET role = :role, updated_at = SYSTIMESTAMP WHERE user_id = :id";
         $stmt = oci_parse($this->conn, $query);
         oci_bind_by_name($stmt, ":id", $id);
@@ -39,7 +44,8 @@ class AdminUser {
         return $result;
     }
 
-    public function deleteUser($id) {
+    public function deleteUser($id)
+    {
         $query = "DELETE FROM users WHERE user_id = :id";
         $stmt = oci_parse($this->conn, $query);
         oci_bind_by_name($stmt, ":id", $id);
